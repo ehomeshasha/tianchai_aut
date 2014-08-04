@@ -1,0 +1,28 @@
+<form action="{AUT_INDEX_PATH}&home=admin&act=bulkemail" method="post" class="form-horizontal">
+<input type="hidden" name="submit" value="true" />
+<div class="control-group">
+    <label class="control-label" for="title">{lang aut:title}</label>
+    <div class="controls">
+      <input type="text" name="title" value="" id="title" class="input-xxlarge" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="content">{lang aut:content}</label>
+    <div class="controls">
+      <textarea name="content" value="" id="content" class="input-xxlarge textarea-xxlarge"></textarea>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="range">uid {lang aut:range}</label>
+    <div class="controls">
+      <input type="text" name="start" value="" class="input-mini" />
+	<span class="mln mrn">~</span>
+	<input type="text" name="end" value="" class="input-mini" />
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button class="btn btn-primary" type="submit">{lang aut:submit}</button>
+    </div>
+  </div>
+</form>

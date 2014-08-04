@@ -1,0 +1,46 @@
+<div class="tiku_category">
+	<!--{loop $_G['aut_cache']['categorytree']['tiku'] $cate0}-->
+	<div class="category_block mbw">
+		<h4 class="">{$cate0['name']}</h4>
+		<!--{if $cate0['cid'] == $_G['aut_settings']['cateradio_cid']}-->
+		<ul class="cl">
+			<!--{loop $cate0['subcate'] $cate1}-->
+			<li class="tiku_category_li">
+				<input type="radio" name="contest_category" value="{$cate1['cid']}" id="cid_{$cate1['cid']}" class="cate_radiobox" {if $problem['category'] == $cate1['cid']}checked="checked"{/if} />
+				<label for="cid_{$cate1['cid']}" class="cate_label">{$cate1['name']}</label>
+			</li>
+			<!--{/loop}-->
+		</ul>
+		<!--{else}-->
+		<table cellspacing="0" cellpadding="0" width="100%" class="tiku_category_table">
+			<tr>
+				<!--{loop $cate0['subcate'] $k $cate1}-->
+				{eval $mod = ($k+1)%5;}
+				<td valign="top">
+					<input type="checkbox" value="{$cate1['cid']}" id="cid_{$cate1['cid']}" class="cate_checkbox cateid_1_checkbox" {if in_array($cate1['cid'], $cateidArr_1)}checked="checked"{/if} />
+					<label for="cid_{$cate1['cid']}" class="cate_label black">{$cate1['name']}</label>
+					<ul class="cl">
+						<!--{loop $cate1['subcate'] $cate2}-->
+						<li class="">
+							<input type="checkbox" value="{$cate2['cid']}" id="cid_{$cate2['cid']}" class="cate_checkbox cateid_2_checkbox" {if in_array($cate2['cid'], $cateidArr_2)}checked="checked"{/if} />
+							<label for="cid_{$cate2['cid']}" class="cate_label">{$cate2['name']}</label>
+						</li>
+						<!--{/loop}-->
+					</ul>
+				</td>
+				<!--{if $mod == 0}-->
+				</tr>
+				<!--{/if}-->
+				<!--{/loop}-->
+				<!--{if $mod != 0 && ($k+1) == count($cate0['subcate'])}-->
+				{eval echo str_repeat("<td></td>", 5-$mod);}
+				</tr>
+				<!--{/if}-->
+		</table>
+		<!--{/if}-->
+	</div>
+	<!--{/loop}-->
+</div>
+
+			
+			

@@ -1,0 +1,61 @@
+<style type="text/css">
+/*.competition_config_table .solution_problem_table {font-size:14px;}*/
+.competition_dl dt {font-size:16px;}
+.competition_dl dd {padding:10px;}
+</style>
+<div class="viewarea">
+	<fieldset>
+		<legend>
+			{$competition['title']}
+		</legend>
+		<dl class="competition_dl">
+			<dt>{lang aut:competition_problem}</dt>
+			<dd>
+				<table class="solution_problem_table table table-striped no-margin-bottom">
+					<thead>
+					<tr>
+						<td width="8%">{lang aut:status}</td>
+						<td width="">Title</td>
+					</tr>
+					</thead>
+					<tbody>
+					<!--{loop $problems $problem}-->
+					<tr>
+						<td>
+							<!--{if in_array($problem['problem_id'], $solution_problem_ids)}-->
+							<span class="xw1">{lang aut:already_submit_yet}</span>
+							<!--{else}-->
+							<span>{lang aut:not_submit_yet}</span>
+							<!--{/if}-->
+						</td>
+						<td><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$problem[problem_id]);}">$problem['title']</a></td>
+						<!--<td><a href="{eval echo get_problem_href_for_competition($problem['problem_id'], $_G['uid']);}">$problem['title']</a></td>-->
+					</tr>
+					<!--{/loop}-->
+					</tbody>
+				</table>
+			</dd>
+			<dt>{lang aut:competition_config}</dt>
+			<dd>
+				<table cellspacing="0" cellpadding="0" width="100%" class="competition_config_table">
+					<tr>
+						<td width="10%">{lang aut:starttime}:</td>
+						<td><span>$competition['startdatetime']</span></td>
+					</tr>
+					<tr>
+						<td>{lang aut:endtime}:</td>
+						<td><span>$competition['enddatetime']</span></td>
+					</tr>
+					<tr>
+						<td>{lang aut:problem_number}:</td>
+						<td>{eval echo count($problems);}</td>
+					</tr>
+				</table>
+			</dd>
+			<dt>{lang aut:competition_short_description}</dt>
+			<dd>{$competition['short_description']}</dd>
+			<dt>{lang aut:competition_description}</dt>
+			<dd>{$competition['description']}</dd>
+		</dl>
+	</fieldset>
+</div>

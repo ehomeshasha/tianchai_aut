@@ -1,0 +1,36 @@
+<div class="problem_tables">
+	<!--{loop $_G['aut_cache']['categorytree']['learning'] $cate0}-->
+	<div class="cate0_area">
+		<!--{loop $cate0['subcate'] $cate1}-->
+		<h3>{$cate0['name']}: {$cate1['name']}</h3>
+		<div class="chapter">
+			<fieldset>
+				<!--{loop $cate1['subcate'] $cate2}-->
+				<legend>{$cate2['name']}</legend>
+				<table class="table table-bordered">
+					<tr>
+						<td width="10%">Problem ID</td>
+						<td width="">Title</td>
+						<td width="5%">Category</td>
+						<td width="5%">Module</td>
+						<td width="5%">AC</td>
+						<td width="5%">Submit</td>
+					</tr>
+					<!--{loop $problemlist[$cate2['cid']] $problem}-->
+					<tr>
+						<td>$problem['problem_id']</td>
+						<td><a {if in_array($cate2['cid'], $_G['validcate'])}href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$problem[problem_id]);}"{else}href="javascript:;" style="color:#999;"{/if}>$problem['title']</a></td>
+						<td>$problem['category_text']</td>
+						<td>$problem['module']</td>
+						<td>$problem['accepted']</td>
+						<td>$problem['submit']</td>
+					</tr>
+					<!--{/loop}-->
+				</table>
+				<!--{/loop}-->
+			</fieldset>
+		</div>
+		<!--{/loop}-->
+	</div>
+	<!--{/loop}-->
+</div>

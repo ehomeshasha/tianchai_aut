@@ -1,0 +1,50 @@
+
+
+<form class="discuz_editor_form" action="{AUT_INDEX_PATH}&home=release&act=post&admin=1" id="release_post_form" method="post" autocomplete="off" onsubmit="$('{$editorid}_textarea').value = wysiwyg ? html2bbcode(getEditorContents()) : $('{$editorid}_textarea').value">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="http_referer" value="$_SERVER['HTTP_REFERER']" />
+	<input type="hidden" name="submit" value="true" />
+	<fieldset>
+		<!--{if $op == 'new'}-->
+		<legend>{lang aut:addrelease}</legend>
+		<!--{elseif $op == 'edit'}-->
+		<legend>{lang aut:editrelease}</legend>
+		<!--{/if}-->
+		<label>{lang aut:title}</label>
+		<input type="text" class="input-xxlarge" name="title" id="title" maxlength="255" value="$release['title']" />
+		<label>{lang aut:brief}</label>
+		<textarea name="description" class="input-xxlarge textarea-large" id="description">{$release['description']}</textarea>
+		<label>{lang aut:release_content}</label>
+		<!--{eval include template('aut:common/discuz_editor')}-->
+		<input type="hidden" name="rid" value="{$rid}" />
+		<input type="hidden" name="op" value="{$op}" />
+		<input type="hidden" name="wysiwyg" id="{$editorid}_mode" value="$editormode" />
+		<input type="submit" class="mtw btn btn-primary" id="post_btn" value="{lang aut:submit}" />
+	</fieldset>
+</form>
+
+<script type="text/javascript">
+var editorform = $('release_post_form');
+var editorsubmit = $('post_btn');
+if(wysiwyg) {
+	newEditor(1, bbcode2html(textobj.value));
+} else {
+	newEditor(0, textobj.value);
+}
+</script>
+
+
+<script type="text/javascript">
+jQuery(function(){
+	jQuery("#release_post_form").submit(function(){
+		if(
+			chkLength("{lang aut:title}", jQuery("#title").val().trim(), 0, 255) &&
+			chkLength("{lang aut:brief}", jQuery("#description").val().trim(), 0, 255) &&
+			chkEmpty("{lang aut:release_content}", jQuery("textarea[name='release_content']").val().trim())
+		) {
+			return true;
+		}
+		return false;
+	});
+});
+</script>

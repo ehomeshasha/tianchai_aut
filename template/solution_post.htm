@@ -1,0 +1,84 @@
+
+<style type="text/css" media="screen">
+</style>
+<form class="solution_post_form" action="{AUT_INDEX_PATH}&home=solution&act=post" id="solution_post_form" method="post" autocomplete="off" onsubmit="">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="submit" value="true" />
+	<fieldset>
+	
+		<legend>{lang aut:submit_code}</legend>
+		<label>{lang aut:problem_info}</label>
+		<p><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$problem[problem_id]);}">{$problem['title']}</a>(ID:{$problem['problem_id']})</p>
+		<label>{lang aut:problem_desc}</label>
+		<p>{$problem['description']}</p>
+		<label>{lang aut:language_select}</label>
+		<select name="language" id="language">
+			<!--{loop $_G['ArrayData']['solution_language'] $k $v}-->
+			<option value="$k" data-mode="{$_G['ArrayData']['ace_mode'][$k]}" {if $solution['language'] == $k}selected="selected"{/if}>$v</option>
+			<!--{/loop}-->
+		</select>
+		<label>{lang aut:code}</label>
+		<div class="is_ie6 mbw">
+		<textarea class="ie6textarea" name="source" id="ie6_code_input">$solution['source']</textarea>
+		</div>
+		<div class="isnot_ie6 mbw">
+		<textarea name="source" id="code_input">$solution['source']</textarea>
+		<div class="banner-grey banner-grey-top" style="padding-left:40px;"><span class="z"></span><span class="y lan_code">#{$curlanguage}</span></div>
+		<div style="position:relative;height:400px;">
+			<div id="solution_editor" class="solution_editor"></div>
+		</div>
+		<div class="banner-grey banner-grey-bottom"></div>
+		</div>
+		
+		<input type="hidden" name="pid" value="{$pid}" />
+		<input type="hidden" name="sid" value="{$sid}" />
+		<input type="hidden" name="op" value="{$op}" />
+		<input type="submit" class="btn btn-primary" id="post_btn" value="{lang aut:submit}" />
+	</fieldset>
+</form>
+
+<script type="text/javascript">
+if(!ie6) {
+	var sel = jQuery("#language option:selected");
+	var codetype = sel.attr("data-mode");
+	jQuery(".is_ie6").remove();
+    var editor = ace.edit("solution_editor");
+    editor.setTheme("ace/theme/eclipse");
+    editor.getSession().setMode("ace/mode/"+codetype);
+    editor.getSession().setValue(jQuery("#code_input").val());
+    jQuery(".ace_scrollbar").css("display", "");
+    var code = jQuery("#code_input").hide();
+} else {
+	jQuery(".isnot_ie6").remove();
+}
+jQuery("#solution_post_form").submit(function(){
+	code.val(editor.getSession().getValue());
+});
+jQuery("#language").change(function(){
+	var sel = jQuery(this).find("option:selected");
+	var codetype = sel.attr("data-mode");
+	var lan_code = sel.html(); 
+
+	editor.getSession().setMode("ace/mode/"+codetype);
+	jQuery(".lan_code").html("#"+lan_code);
+});
+</script>
+
+<script type="text/javascript">
+jQuery("#solution_post_form").submit(function(){
+	if(
+		chkEmpty("{lang aut:code}", jQuery("textarea[name='source']").val().trim())
+	) {
+		return true;
+	}
+	return false;
+});
+</script>
+
+
+
+<link type="text/css" rel="stylesheet" href="{AUT_PATH}/syntaxhighlighter/styles/shCore.css" />
+<link type="text/css" rel="stylesheet" href="{AUT_PATH}/syntaxhighlighter/styles/shThemeDefault.css" />
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shAutoloader.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/js/highlightCode.js"></script>

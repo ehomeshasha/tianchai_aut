@@ -1,0 +1,162 @@
+<style type="text/css">
+
+</style>
+
+<form class="discuz_editor_form" action="{AUT_INDEX_PATH}&home=problem&act=post&admin=1" id="problem_post_form" method="post" autocomplete="off" onsubmit="$('{$editorid}_textarea').value = wysiwyg ? html2bbcode(getEditorContents()) : $('{$editorid}_textarea').value" enctype="multipart/form-data">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="http_referer" value="{$_SERVER['HTTP_REFERER']}" />
+	<input type="hidden" name="submit" value="true" />
+	<input type="hidden" name="ptype" value="{$problem['ptype']}" />
+	<fieldset class="problem_post_fieldset">
+		<legend>{lang aut:problem_input}</legend>
+		<label>{lang aut:problem_title}</label>
+		<input type="text" class="input-xxlarge" id="problem_title" name="title" maxlength="200" value="$problem['title']" />
+		<label>{lang aut:problem_id}</label>
+		<input type="text" class="input" id="problem_id" name="problem_id" maxlength="11" value="$problem['problem_id']" />
+		<label>{lang aut:problem_category}</label>
+		<!--{if $type == 'challenge' || $type == 'try'}-->
+		<select name="category" id="category">
+			<option value="-1">{lang aut:choose}</option>
+			{$category_html}
+		</select>
+		<!--{elseif $type == 'tiku'}-->
+		<div class="well" style="padding:10px;">
+		<a class="btn" data-toggle="modal" data-open="false" data-modal-size="large" data-href="{AUT_INDEX_PATH}&home=tiku&act=tiku_category&op={$op}&pid={$pid}&ajax=1" href="">{lang aut:choose_text}</a>
+		<div class="categroy_info">
+			<span class='contest_category_info mrm'>{eval echo lang('plugin/aut', 'contest_category_text')}: {$categoryname}</span><br/>
+			<span class='first_category_info mrm'>{eval echo lang('plugin/aut', 'first_category_text')}: {$catename_1}</span><br/>
+			<span class='second_category_info'>{eval echo lang('plugin/aut', 'second_category_text')}: {$catename_2}</span>
+		</div>
+		<input type="hidden" name="category" id="category" value="{$problem['category']}" />
+		<input type="hidden" name="cateid_1" id="cateid_1" value="{$problem['cateid_1']}" />
+		<input type="hidden" name="cateid_2" id="cateid_2" value="{$problem['cateid_2']}" />
+		</div>
+		<!--{/if}-->
+		<label>{lang aut:problem_timelimit}</label>
+		<input type="text" class="input input-mini mrm" id="timelimit" name="timelimit" maxlength="11" value="$time_limit" />{lang aut:second}
+		<label>{lang aut:problem_memorylimit}</label>
+		<input type="text" class="input input-mini mrm" id="memorylimit" name="memorylimit" maxlength="11" value="$memory_limit" />MB
+		<label>Special Judge({lang aut:please_upload_spj_source_file_program_will_auto_compile_filename_is_not_limited})</label>
+		<input type="radio" name="spj" value="0" {if $op=='new' || $problem['spj']==0}checked="checked"{/if} class="spj_input" /> {lang aut:no}&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="radio" name="spj" value="1" {if $problem['spj']==1}checked="checked"{/if} class="spj_input" /> {lang aut:yes}
+		<br/>
+		<br/>
+		<div class="spj_upload_area">
+			<!--{if $problem['spj']==1}-->
+			spj文件&nbsp;<input type='file' name='spj_upload' />
+			<!--{/if}-->
+		</div>
+		<br/>
+		<label style="display:none;">{lang aut:problem_groups}</label>
+		<div style="display:none;">{$usergroupstr}</div>
+		<label>{lang aut:problem_desc}</label>
+		<!--{eval include template('aut:common/discuz_editor')}-->
+		<legend class="mtw">{lang aut:format}</legend>
+		<label style="clear:both;">{lang aut:inputformat}</label>
+		<textarea class="large_inputbox" name=input>$problem['input']</textarea>
+		<label>{lang aut:outputformat}</label>
+		<textarea class="large_inputbox" name="output">$problem['output']</textarea>
+		<label>{lang aut:hint}</label>
+		<textarea class="large_inputbox" name="hint">$problem['hint']</textarea>
+		<label>{lang aut:restrict}</label>
+		<textarea class="large_inputbox" name="restrict">$problem['restrict']</textarea>
+		<label>{lang aut:example_shownum}</label>
+		<select name="example_shownum" class="input-mini">
+			<option value="1" {if $problem['example_shownum'] == 1}selected="selected"{/if}>1</option>
+			<option value="2" {if empty($problem['example_shownum']) || $problem['example_shownum'] == 2}selected="selected"{/if}>2</option>
+			<option value="3" {if $problem['example_shownum'] == 3}selected="selected"{/if}>3</option>
+		</select>
+		<div class="exampledisplay_block">
+			{eval initexample_display($problem['exampledisplay']);}
+		</div>
+		<label>{lang aut:testdata_input_method}</label>
+		<input type="radio" id="input_method_file" class="input_method" checked="checked"  name="input_method" value="file" />
+		<label for="input_method_file" style="display:inline;">{lang aut:fileupload}</label>
+		<input type="radio" id="input_method_text" class="input_method" name="input_method" value="text" />
+		<label for="input_method_text" style="display:inline;">{lang aut:textinput}</label>
+		<div class="example_input_file mtw">
+			<input type="file" multiple="multiple" name="exampleupload[]" class="exampleupload" />
+		</div>
+		<div class="example_input_text" style="display:none;">
+			{eval initexample($problem['example'], $this->maxexample, $pid);}
+		</div>
+		<input type="hidden" name="pid" value="{$pid}" />
+		<input type="hidden" name="op" value="{$op}" />
+		<input type="hidden" name="wysiwyg" id="{$editorid}_mode" value="$editormode" />
+		<input type="submit" class="btn btn-primary" id="post_btn" value="{lang aut:submit}" />
+	</fieldset>
+</form>
+
+<script type="text/javascript">
+jQuery(".input_method").click(function(){
+	var method = jQuery(this).val();
+	if(method == 'file') {
+		jQuery(".example_input_file").css("display","");
+		jQuery(".example_input_text").css("display","none");
+		jQuery(".exampleupload").removeAttr("disabled");
+		jQuery(".example_input_text textarea").attr("disabled", "disabled");
+	} else if(method == 'text') {
+		jQuery(".example_input_file").css("display","none");
+		jQuery(".example_input_text").css("display","");
+		jQuery(".exampleupload").attr("disabled", "disabled");
+		jQuery(".example_input_text textarea").removeAttr("disabled");
+	}
+});
+jQuery(".add_example").click(function(){
+	var id = jQuery(this).attr("data-next");
+	var n = parseInt(id);
+	var loc = location.href
+	var index = loc.indexOf("#examplelabel_input_");
+	if(n <= {$this->maxexample}) {
+		jQuery(".example"+id).css("display", "block");
+		jQuery(this).attr("data-next", n+1);
+		
+		if(index == -1) {
+			location.href = loc + "#examplelabel_input_" + id;
+		} else {
+			//location.href = loc.substring(0, index) + "#examplelabel_input_" + id;
+			location.href = loc.replace(/#examplelabel_input_\d+/, "#examplelabel_input_"+id);
+		}
+	}
+});
+var editorform = $('problem_post_form');
+var editorsubmit = $('post_btn');
+if(wysiwyg) {
+	newEditor(1, bbcode2html(textobj.value));
+} else {
+	newEditor(0, textobj.value);
+}
+
+jQuery("#problem_post_form").submit(function(){
+	{if $type == "challenge" || $type == "try"}
+	if(jQuery("#category").val() == "-1") {
+		alert('Please select the category');
+		return false;
+	}
+	{elseif $type == "tiku"}
+	{/if}
+	
+	
+	if(
+		chkLength("{lang aut:problem_title}", jQuery("#problem_title").val().trim(), 0, 200) &&
+		chkDigit("{lang aut:problem_id}", jQuery("#problem_id").val().trim(), 0, 11) &&
+		chkDigit("{lang aut:problem_timelimit}", jQuery("#timelimit").val().trim(), 0, 11) &&
+		chkDigit("{lang aut:problem_memorylimit}", jQuery("#memorylimit").val().trim(), 0, 11) 
+	) {
+		return true;
+	}
+	return false;
+	
+	
+	
+});
+
+jQuery(".spj_input").click(function(){
+	var spj = jQuery(this).val();
+	if(spj == 0) {
+		jQuery(".spj_upload_area").html("")
+	} else if(spj == 1) {
+		jQuery(".spj_upload_area").html("spj文件&nbsp;<input type='file' name='spj_upload' />")
+	}
+});
+</script>

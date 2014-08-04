@@ -1,0 +1,15 @@
+<script type="text/javascript" src="{AUT_PATH}/js/judge_result_display_gbk.js"></script>
+<div class="alert alert-info">
+{lang aut:run_result}{$_G['ArrayData']['result'][$result]['text']}
+</div>
+<div class="error_area alert {if $type == 'runtime'}alert-error{/if}"">
+	<pre class="error_text">
+		{$error}
+	</pre>
+	<div class="error_explain"></div>
+</div>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	getExplanation();
+});
+</script>

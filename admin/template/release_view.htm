@@ -1,0 +1,25 @@
+<style type="text/css">
+.release_dl dt {font-size:16px;margin-bottom:10px;}
+.release_dl dd {margin-bottom:20px;}
+</style>
+<div class="viewarea">
+	<fieldset>
+		<legend>
+			{$release['title']}
+		</legend>
+		<dl class="release_dl">
+			<dt>{lang aut:brief}</dt>
+			<dd>{$release['description']}</dd>
+			<dt>{lang aut:release_content}</dt>
+			<dd>{$release['content']}</dd>
+		</dl>
+	</fieldset>
+</div>
+
+
+
+<link type="text/css" rel="stylesheet" href="{AUT_PATH}/syntaxhighlighter/styles/shCore.css" />
+<link type="text/css" rel="stylesheet" href="{AUT_PATH}/syntaxhighlighter/styles/shThemeDefault.css" />
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shAutoloader.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/js/highlightCode.js"></script>

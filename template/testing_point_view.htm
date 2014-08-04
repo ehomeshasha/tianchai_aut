@@ -1,0 +1,19 @@
+<table class="table table-bordered table-striped table-condensed testing_point_table" id="testing_point_table">
+	<tr>
+		<td>Point</td>
+		<td>Result</td>
+		<td>Score</td>
+		<td>Used time</td>
+	</tr>
+	{eval $point_number=0;}
+	<!--{loop $solution['testing_point'] $point}-->
+	<tr>
+		{eval $point_number++;
+		$result = getresultArr($point['flag'], $solution['solution_id']);}
+		<td>{$point_number}</td>
+		<td>{$result['html']}</td>
+		<td>{$point['score']}</td>
+		<td>{$point['usedtime']}ms</td>
+	</tr>
+	<!--{/loop}-->
+</table>

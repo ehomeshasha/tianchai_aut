@@ -1,0 +1,46 @@
+
+
+<div class="problem_tables">
+	<table class="table table-bordered table-hover table-condensed sort_table" id="table">
+		<thead>
+		<tr>
+			<td width="10%">ID</td>
+			<td width="">{lang aut:competition_title}</td>
+			<td width="8%">{lang aut:tishu_pinxin}</td>
+			<td width="">{lang aut:startdate}</td>
+			<td width="">{lang aut:enddate}</td>
+			<td width="8%">{lang aut:status}</td>
+			<td width="5%" class="nosort">Operate</td>
+		</tr>
+		</thead>
+		<tbody>
+		<!--{loop $competitionlist $competition}-->
+		<tr>
+			<td>$competition['id']</td>
+			<td><a {if $competition['status_word'] != lang('plugin/aut', 'not_start_yet') && $competition['status_word'] != lang('plugin/aut', 'Unknown')}
+					href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=competition&act=view&competition_id='.$competition[id]);}"
+					{else}href="javascript:;"{/if}  
+				{if $competition['status_word'] != lang('plugin/aut', 'ongoing')}style="color:#aaa;"{/if}>$competition['title']</a></td>
+			<td>$competition['problem_count']</td>
+			<td>$competition['startdatetime']</td>
+			<td>$competition['enddatetime']</td>
+			<td>$competition['status_word']</td>
+			<td>
+				<!--{if $competition['status_word'] == lang('plugin/aut', 'ongoing')}-->
+				<a class="joinlink label label-warning" href="{AUT_INDEX_PATH}&home=competition&act=view&competition_id={$competition[id]}">+{lang aut:join}</a>
+				<!--{/if}-->
+				<!--{if $competition['status'] == 1}-->
+				<a class="label label-success" href="{AUT_INDEX_PATH}&home=competition&act=view_result&competition_id={$competition[id]}">{lang aut:view_result}</a>
+				<!--{/if}-->
+				
+			</td>
+		</tr>
+		<!--{/loop}-->
+		</tbody>
+	</table>
+	<div class="pagination pagination-right">
+		{template aut:common/perpage}
+	</div>
+</div>
+<script type="text/javascript">var pageSize = {$perpage};</script>
+<script type="text/javascript" src="{AUT_PATH}/js/sort_table.js"></script>

@@ -1,0 +1,16 @@
+<form class="pull-left form-inline" action="" method="post" id="form-perpage">
+	<span class="help-inline">{lang aut:record_perpage}</span>
+	<select name="perpage" class="input-mini" style="font-size:12px;padding-left:0px;padding-right:0;" id="perpage">
+		<!--{loop $_G['ArrayData']['page_selection'] $page_number}-->
+		<option value="$page_number">$page_number</option>
+		<!--{/loop}-->
+	</select>
+</form>
+<script type="text/javascript">
+jQuery(function(){
+	jQuery("#perpage").val("{$perpage}");
+	jQuery("#perpage").change(function(){
+		jQuery("#form-perpage").submit();
+	});
+});
+</script>

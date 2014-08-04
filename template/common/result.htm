@@ -1,0 +1,33 @@
+<script type="text/javascript">
+var t = 3; 
+sh = setInterval("countdown()",1000);
+function countdown() {
+	t--;
+	if(t<0) {
+		clearInterval(sh);
+	} else if(t > 0) {
+		jQuery(".countdown_num").html(t);
+	} else {
+		jQuery(".jumpto_btn").trigger('click');	
+	}
+}
+jQuery(function(){
+	jQuery(".jumpto_btn").click(function(){
+		{if $jump_url != ""}
+		location.href = "{$jump_url}";
+		{else}
+		history.go(-1);
+		{/if}
+	});
+});
+
+</script>
+<div>
+	<ul class="breadcrumb">
+	  	<li><a href="{AUT_INDEX_PATH}">{lang aut:homepage}</a> <span class="divider">/</span></li>
+	  	<li class="active">{lang aut:operation_result}</li>
+	</ul>
+	<div class="alert {$_G['ArrayData']['showresult'][$code]['alert_style']}">
+		<span class="mrw">{$message}</span><button type="button" class="jumpto_btn btn {$_G['ArrayData']['showresult'][$code]['button_style']}">{lang aut:jumpto}(<span class="countdown_num">3</span>)</button>
+	</div>
+</div>

@@ -1,0 +1,85 @@
+<script type="text/javascript" src="{AUT_PATH}/js/judge_result_display.js"></script>
+<style type="text/css">
+.solution_detail_dl dt {margin-bottom:10px;font-size:16px;}
+</style>
+<div class="solution_view">
+	<fieldset>
+		<legend>Solution ID: {$solution['solution_id']}</legend>
+		<div class="solution_detail_area">
+			<dl class="solution_detail_dl">
+				<dt>{lang aut:stat_info}</dt>
+				<dd>
+					<table class="table table-bordered table-condensed stat_table" id="stat_table">
+						<tr>
+							<td width="7%">User</td>
+							<td width="">Problem</td>
+							<td width="10%">Result</td>
+							<td width="5%">Score</td>
+							<td width="5%">Memory</td>
+							<td width="5%">Time</td>
+							<td width="5%">Language</td>
+							<td width="12%">Code Length</td>
+							<td width="16%">Submit Time</td>
+							<!--{if $solution['problem_id'] < 20000 && allow_operate($solution['user_id'])}-->
+							<td width="5%">Operate</td>
+							<!--{/if}-->
+						</tr>
+						<tr>
+							<td>{$solution['user_name']}</td>
+							<td><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$solution[problem_id]);}">$solution['title']</a></td>
+							<td>$solution['result']['html']</td>
+							<td>{eval echo pass_rate_format($solution['pass_rate']);}</td>
+							<td>$solution['memory']</td>
+							<td>$solution['time']</td>
+							<td>$_G['ArrayData']['language_name'][$solution['language']]</td>
+							<td>$solution['code_length']</td>
+							<td>$solution['in_date']</td>
+							<!--{if $solution['problem_id'] < 20000 && allow_operate($solution['user_id'])}-->
+							<td>
+								<a href="{AUT_INDEX_PATH}&home=solution&act=post&op=edit&sid={$solution['solution_id']}&pid={$solution['problem_id']}">Edit</a>
+								<a href="javascript:;" class="deletelink" data-id="{$solution[solution_id]}" data-type="solution">Delete</a>
+							</td>
+							<!--{/if}-->
+						</tr>
+					</table>
+				</dd>
+				<!--{if !empty($solution['testing_point'])}-->
+				<dt>{lang aut:testing_point_detail}</dt>
+				<dd>
+					<!--{template aut:testing_point_view}-->
+				</dd>
+				<!--{/if}-->
+				<!--{if $solution['spj'] != 1 && !empty($solution['result']['type'])}-->
+				<dt>Output Detail</dt>
+				<dd>
+					<div class="result_detail">
+						<div class="alert {if $solution['result']['type'] == 'runtime'}alert-error{/if}">
+							<pre class="error_text">
+								{eval echo get_result_detail($solution[solution_id], $solution['result']['type']);}
+							</pre>
+							<div class="error_explain"></div>
+						</div>
+					</div>
+				</dd>
+				<!--{/if}-->
+				<dt>Source:</dt>
+				<dd>
+					<pre class="brush: {$_G['ArrayData']['language2syntaxhighlighter'][$solution['language']]};toolbar: true;">$solution['source']</pre>
+				</dd>
+			</dl>
+		</div>
+	</fieldset>
+</div>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	getExplanation();
+});
+</script>
+
+
+
+<link type="text/css" rel="stylesheet" href="{AUT_PATH}/syntaxhighlighter/styles/shCore.css" />
+<link type="text/css" rel="stylesheet" href="{AUT_PATH}/syntaxhighlighter/styles/shThemeDefault.css" />
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shAutoloader.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/js/highlightCode.js"></script>

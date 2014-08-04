@@ -1,0 +1,137 @@
+<style type="text/css">
+/*.competition_config_table .solution_problem_table {font-size:14px;}*/
+.competition_dl dt {font-size:16px;}
+.competition_dl dd {padding:10px;}
+</style>
+<div class="viewarea">
+	<fieldset>
+		<legend>{$competition['title']}</legend>
+		<div class="row-fluid">
+			<div class="span9">
+				<dl class="competition_dl">
+					<dt>{lang aut:competition_status}</dt>
+					<dd>
+						{$competition_status_word}
+					</dd>
+					<dt>{lang aut:competition_time}</dt>
+					<dd>
+						{$competition['startdatetime_text']} ~ {$competition['enddatetime_text']}
+					</dd>
+					<dt>{lang aut:zuotitongji_pinyin}</dt>
+					<dd>
+						<table class="solution_problem_table table table-striped mbm">
+							<thead>
+							<tr>
+								<td width="">Title</td>
+								<td>{lang aut:score}<a href="javascript:;" title="{lang aut:rules_info}" class="bred">[?]</a></td>
+								<td width="5%">AC</td>
+								<td width="5%">Submit</td>
+							</tr>
+							</thead>
+							<tbody>
+							<!--{loop $problems $problem}-->
+							<tr>
+								<td><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$problem[problem_id]);}">$problem['title']</a></td>
+								<td>$problem['final_score']</td>
+								<td>$problem['ac_count']</td>
+								<td>$problem['submit_count']</td>
+							</tr>
+							<!--{/loop}-->
+							</tbody>
+						</table>
+					</dd>
+					<dt>{lang aut:final_result}</dt>
+					<dd>
+						<!-- <p>{lang aut:calculate_formula}: {lang aut:calculate_formula_text}</p> -->
+						<div class="bred">{$score}{lang aut:fen_pinyin}</div> 
+					</dd>
+					<!--{if $competition['status'] == 1}-->
+					<dt>{lang aut:solution_list}</dt>
+					<dd>
+						<ul class="nav nav-tabs">
+						<li {if $op == 'all'}class="active"{/if}>
+							<a href="{AUT_INDEX_PATH}&home=competition&act=view_result&competition_id={$competition['id']}&op=all">{lang aut:all}</a>
+						</li>
+			 			<li {if $op == 'my'}class="active"{/if}>
+							<a href="{AUT_INDEX_PATH}&home=competition&act=view_result&competition_id={$competition['id']}&op=my">{lang aut:wode_pinyin}</a>
+						</li>
+						<li {if $op == 'others'}class="active"{/if}>
+							<a href="{AUT_INDEX_PATH}&home=competition&act=view_result&competition_id={$competition['id']}&op=others">{lang aut:qitaren_pinyin}</a>
+						</li>						
+						</ul>
+						<!--{if !empty($solutions)}-->
+						<table class="table table-bordered table-hover table-condensed sort_table" id="table">
+							<thead>
+							<tr>
+								<td width="10%">ID</td>
+								<td width="7%">User</td>
+								<td width="">Problem</td>
+								<td width="15%">Result</td>
+								<td width="5%">Score</td>
+								<!-- 
+								<td width="5%">Memory</td>
+								-->
+								<td width="5%">Time</td>
+								<!--
+								<td width="5%">Language</td>
+								<td width="8%">Length</td>
+								-->
+								<td width="16%">Submit Time</td>
+							</tr>
+							</thead>
+							<tbody>
+							<!--{loop $solutions $solution}-->
+							<tr>
+								<td><a href="{AUT_INDEX_PATH}&home=solution&act=detail&sid={$solution['solution_id']}">$solution['solution_id']</a></td>
+								<td>$solution['user_name']</td>
+								<td>$solution['title']</td>
+								<td>$solution['result']['html']</td>
+								<td>{eval echo pass_rate_format($solution['pass_rate']);}</td>
+								<!-- 
+								<td>$solution['memory']</td>
+								-->
+								<td>$solution['time']</td>
+								<!--
+								<td>$_G['ArrayData']['language_name'][$solution['language']]</td>
+								<td>$solution['code_length']</td>
+								-->
+								<td>$solution['in_date']</td>
+							</tr>
+							<!--{/loop}-->
+							</tbody>
+						</table>
+						<div class="pagination pagination-right">
+							{template aut:common/perpage}
+						</div>
+						<!--{/if}-->
+					</dd>
+					<!--{/if}-->
+				</dl>
+			</div>
+			<div class="span3">
+				<!--{if $competition['status'] == 1}-->
+				<dl class="competition_dl">
+					<dt>{lang aut:paihangbang_pinyin}</dt>
+					<dd>
+						{eval $aut_i=1;}
+						<table cellspacing="0" cellpadding="0" width="100%">
+							<tr>
+								<td>&nbsp;&nbsp;&nbsp;{lang aut:nickname}</td>
+								<td>{lang aut:score}</td>
+							</tr>
+							<!--{loop $users_score $user_name $score}-->
+							<tr>
+								<td>{$aut_i}.{$user_name}</td>
+								<td>{$score}</td>
+							</tr>
+							{eval $aut_i++;}
+						<!--{/loop}-->
+						</table>
+					</dd>
+				</dl>
+				<!--{/if}-->
+			</div>
+	</fieldset>
+</div>
+<script type="text/javascript">var pageSize = {$perpage};</script>
+<script type="text/javascript" src="{AUT_PATH}/js/sort_table.js"></script>

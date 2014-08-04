@@ -1,0 +1,116 @@
+
+<div class="viewarea">
+	<fieldset>
+		<legend>
+			{lang aut:problem_desc}(ID:{$problem['problem_id']})
+			<!--{if $operation == 'edit'}-->
+			<a href="javascript:;" data-action="collapse" class="collapse_expand" data-control="#problem_table">[{lang aut:collapse}]</a>
+			<!--{/if}-->
+		</legend>
+		<table class="table table-nobordered" id="problem_table" {if $operation == 'edit'}style="display:none;"{/if}>
+			<tr>
+				<td width="60">{lang aut:title}:</td>
+				<td>$problem['title']</td>
+			</tr>
+			<tr>
+				<td>{lang aut:detail}:</td>
+				<td>$problem['description']</td>
+			</tr>
+			<!--{if !empty($problem['input'])}-->
+			<tr>
+				<td>{lang aut:inputformat}:</td>
+				<td><pre>$problem['input']</pre></td>
+			</tr>
+			<!--{/if}-->
+			<!--{if !empty($problem['output'])}-->
+			<tr>
+				<td>{lang aut:outputformat}:</td>
+				<td><pre>$problem['output']</pre></td>
+			</tr>
+			<!--{/if}-->
+			<!--{if !empty($problem['hint'])}-->
+			<tr>
+				<td>{lang aut:hint}:</td>
+				<td>{eval echo getbr($problem['hint'])}</td>
+			</tr>
+			<!--{/if}-->
+			<!--{if !empty($problem['restrict'])}-->
+			<tr>
+				<td>{lang aut:restrict}:</td>
+				<td>{eval echo getbr($problem['restrict'])}</td>
+			</tr>
+			<!--{/if}-->
+			{$exampledisplay}
+		</table>
+	</fieldset>
+</div>
+<!--{if $_G['uid']}-->
+<form class="solution_post_form" action="{AUT_INDEX_PATH}&home=solution&act=post&ajax={$_G['aut_ajax']}" id="solution_post_form" method="post" autocomplete="off" onsubmit="">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="submit" value="true" />
+	<fieldset>
+	
+		<legend>{lang aut:solution_input}</legend>
+		<label>{lang aut:solution_language}</label>
+		<select name="language" id="language">
+			<!--{loop $_G['ArrayData']['solution_language'] $k $v}-->
+			<option value="$k" data-mode="{$_G['ArrayData']['ace_mode'][$k]}" {if $solution['language'] == $k}selected="selected"{/if}>$v</option>
+			<!--{/loop}-->
+		</select>
+		<label>{lang aut:code}</label>
+		<div class="is_ie6 mbw">
+		<textarea class="ie6textarea" name="source" id="ie6_code_input">$solution['source']</textarea>
+		</div>
+		<div class="isnot_ie6 mbw">
+		<textarea name="source" id="code_input">$solution['source']</textarea>
+		<div class="banner-grey banner-grey-top" style="padding-left:40px;"><span class="z"></span><span class="y lan_code">#{$curlanguage}</span></div>
+		<div style="position:relative;height:400px;">
+			<div id="solution_editor" class="solution_editor"></div>
+		</div>
+		<div class="banner-grey banner-grey-bottom"></div>
+		</div>
+		<input type="hidden" name="scope" value="{$scope}" />
+		<input type="hidden" name="ajax" value="{$_G['aut_ajax']}" />
+		<input type="hidden" name="pid" value="{$problem['problem_id']}" />
+		<input type="hidden" name="sid" value="{$sid}" />
+		<input type="hidden" name="op" value="{$op}" />
+		<input type="hidden" name="ajax" value="{$_G['aut_ajax']}" />
+		<input type="submit" class="btn btn-primary" id="post_btn" value="{lang aut:submit}" />
+	</fieldset>
+</form>
+
+<script type="text/javascript">
+if(!ie6) {
+	var sel = jQuery("#language option:selected");
+	var codetype = sel.attr("data-mode");
+	jQuery(".is_ie6").remove();
+    var editor = ace.edit("solution_editor");
+    editor.setTheme("ace/theme/eclipse");
+    editor.getSession().setMode("ace/mode/"+codetype);
+    editor.getSession().setValue(jQuery("#code_input").val());
+    jQuery(".ace_scrollbar").css("display", "");
+    var code = jQuery("#code_input").hide();
+} else {
+	jQuery(".isnot_ie6").remove();
+}
+jQuery("#solution_post_form").submit(function(){
+	code.val(editor.getSession().getValue());
+});
+jQuery("#language").change(function(){
+	var sel = jQuery(this).find("option:selected");
+	var codetype = sel.attr("data-mode");
+	var lan_code = sel.html(); 
+
+	editor.getSession().setMode("ace/mode/"+codetype);
+	jQuery(".lan_code").html("#"+lan_code);
+});
+</script>
+<!--{else}-->
+<a href="member.php?mod=logging&action=login">{lang aut:login_and_answer}</a>
+<!--{/if}-->
+
+<link type="text/css" rel="stylesheet" href="{AUT_PATH}/syntaxhighlighter/styles/shCore.css" />
+<link type="text/css" rel="stylesheet" href="{AUT_PATH}/syntaxhighlighter/styles/shThemeDefault.css" />
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shAutoloader.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/js/highlightCode.js"></script>

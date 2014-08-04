@@ -1,0 +1,10 @@
+<!--{loop $problemlist $problem}-->
+<tr class="problems_tr" data-totalpage="{$this->problem_total_page}">
+	<td>$problem['problem_id']</td>
+	<td class="td_title"><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$problem[problem_id].'&admin=1');}">$problem['title']</a></td>
+	<td>$problem['module']</td>
+	<td>
+		<a data-id="$problem['problem_id']" href="javascript:;" class="mtn add_to_competition label label-success">+{lang aut:competition}</a>
+	</td>
+</tr>
+<!--{/loop}-->

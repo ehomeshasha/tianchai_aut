@@ -1,0 +1,172 @@
+
+<!--{if $_G['uid']}-->
+<script type="text/javascript" src="{AUT_PATH}/js/judge_result_display.js"></script>
+<form class="solution_post_form" action="{AUT_INDEX_PATH}&home=solution&act=post&ajax={$_G['aut_ajax']}" id="solution_post_form" method="post" autocomplete="off" onsubmit="">
+<input type="hidden" name="pid" value="{$problem['problem_id']}" />
+<div class="viewarea">
+	<fieldset>
+		<legend>
+			{lang aut:try}
+		</legend>
+		<table class="table table-nobordered" id="problem_table" {if $operation == 'edit'}style="display:none;"{/if}>
+			<tr>
+				<td width="60">{lang aut:detail}:</td>
+				<td>$problem['description']</td>
+			</tr>
+			<tr>
+				<td>{lang aut:inputformat}:</td>
+				<td><pre>$problem['input']</pre></td>
+			</tr>
+			<tr>
+				<td>{lang aut:outputformat}:</td>
+				<td><pre>$problem['output']</pre></td>
+			</tr>
+			{$example}
+			<tr>
+				<td>{lang aut:solution_language}</td>
+				<td>
+					<select name="language" id="language">
+						<!--{loop $_G['ArrayData']['solution_language'] $k $v}-->
+						<option value="$k" data-mode="{$_G['ArrayData']['ace_mode'][$k]}" {if $solution['language'] == $k}selected="selected"{/if}>$v</option>
+						<!--{/loop}-->
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div class="is_ie6">
+						<textarea class="ie6textarea" name="source" id="ie6_code_input">$solution['source']</textarea>
+					</div>
+					<div class="isnot_ie6">
+						<textarea name="source" id="code_input">$solution['source']</textarea>
+						<div class="banner-grey banner-grey-top" style="padding-left:40px;"><span class="z"></span><span class="y lan_code">#{$curlanguage}</span></div>
+						<div style="position:relative;height:400px;">
+							<div id="solution_editor" class="solution_editor"></div>
+						</div>
+						<div class="banner-grey banner-grey-bottom"></div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button type="button" class="btn btn-info mbm" id="post_btn">{lang aut:test}</button>
+					<div class="well" id="result_detail" style="display:none;">
+						<div class="result_type"></div>
+						<div class="error">
+							<pre class="error_text"></pre>
+							<div class="error_explain"></div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+</div>
+</form>
+
+<script type="text/javascript">
+if(!ie6) {
+	var sel = jQuery("#language option:selected");
+	var codetype = sel.attr("data-mode");
+	jQuery(".is_ie6").remove();
+    var editor = ace.edit("solution_editor");
+    editor.setTheme("ace/theme/eclipse");
+    editor.getSession().setMode("ace/mode/"+codetype);
+    editor.getSession().setValue(jQuery("#code_input").val());
+    jQuery(".ace_scrollbar").css("display", "");
+    var code = jQuery("#code_input").hide();
+} else {
+	jQuery(".isnot_ie6").remove();
+}
+jQuery("#solution_post_form").submit(function(){
+	code.val(editor.getSession().getValue());
+});
+jQuery("#language").change(function(){
+	var sel = jQuery(this).find("option:selected");
+	var codetype = sel.attr("data-mode");
+	var lan_code = sel.html(); 
+
+	editor.getSession().setMode("ace/mode/"+codetype);
+	jQuery(".lan_code").html("#"+lan_code);
+});
+jQuery("#post_btn").click(function(){
+	post_btn = jQuery(this);
+	post_btn.html("{lang aut:test_loading}");
+	post_btn.attr("disabled", "disabled");
+	if(jQuery("#code_input").length != 0) {
+		jQuery("#code_input").val(editor.getSession().getValue());
+	}
+	var formdata = jQuery("#solution_post_form").serialize();
+	jQuery.ajax({
+		url: aut_index_path+"&home=solution&act=try_post&ajax=json",
+		type: "post",
+		dataType: 'json', 
+        data: formdata,
+        success: function(data) {
+        	if(data.code == -1) {
+				alert(data.content);
+				post_btn = jQuery("#post_btn");
+	    		post_btn.removeAttr("disabled");
+	    		post_btn.html("{lang aut:test}");
+			} else {
+				sh = setInterval("getresult("+data.content+")", 500);
+			}
+        }
+	});
+});
+
+function getresult(sid) {
+	jQuery.ajax({
+		url: aut_index_path+"&home=solution&act=getresult&ajax=json",
+		type: "post",
+		dataType: 'json', 
+        data: {sid:sid},
+        success: function(data) {
+        	
+        	if(data.code == -1) {
+        		alert(data.content);
+        	} else {
+        	
+	        	if(data.stop == 1) {
+	        		jQuery(".result_type").html("{lang aut:run_result}"+data.type);
+	        		jQuery("#result_detail").css("display", "");
+	        		
+	        		if(typeof(data.error) != "undefined") {
+	        			jQuery(".error_text").html(data.error);
+	        			getExplanation();
+	        		} else {
+	        			jQuery(".error_text, .error_explain").html();
+	        		}
+	        		post_btn = jQuery("#post_btn");
+	        		post_btn.removeAttr("disabled");
+	        		post_btn.html("{lang aut:test}");
+	        		jQuery.post(aut_index_path+"&home=solution&act=delete&sid="+sid+"&ajax=1&ptype=try",function(data){
+	        			if(data != "") {
+	        				alert(data);
+	        			}
+	        		});
+	        		
+	        		clearInterval(sh);
+	        		
+	        	}
+        	}
+        }
+	});
+};
+
+</script>
+<!--{else}-->
+<a href="member.php?mod=logging&action=login">{lang aut:login_and_answer}</a>
+<!--{/if}-->
+<link type="text/css" rel="stylesheet" href="{AUT_PATH}/syntaxhighlighter/styles/shCoreEclipse.css" />
+<link type="text/css" rel="stylesheet" href="{AUT_PATH}/syntaxhighlighter/styles/shThemeEclipse.css" />
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shLegacy.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shAutoloader.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushCpp.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushDelphi.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushJava.js"></script>
+<script type="text/javascript">
+
+dp.SyntaxHighlighter.HighlightAll('code');
+</script>

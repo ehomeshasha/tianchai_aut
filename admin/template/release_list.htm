@@ -1,0 +1,34 @@
+<div class="well well-small">
+	<a class="btn btn-info" href="{AUT_INDEX_PATH}&home=release&act=post&admin=1">{lang aut:addrelease}</a>
+</div>
+
+<div class="release_tables">
+	<table class="table table-bordered table-hover table-condensed sort_table" id="table">
+		<thead>
+		<tr>
+			<td width="5%">ID</td>
+			<td width="25%" class="nosort">title</td>
+			<td width="" class="nosort">description</td>
+			<td width="5%" class="nosort">Operate</td>
+		</tr>
+		</thead>
+		<tbody>
+		<!--{loop $release_list $v}-->
+		<tr>
+			<td>$v['id']</td>
+			<td><a href="{AUT_INDEX_PATH}&home=release&act=view&rid={$v[id]}&admin=1">$v['title']</a></td>
+			<td>$v['description']</td>
+			<td>
+				<a class="editlink" href="{AUT_INDEX_PATH}&home=release&act=post&op=edit&rid={$v[id]}&admin=1"><img src="{AUT_PATH}/img/icon_edit.png" width="16" height="16" /></a>
+				<a href="javascript:;" class="deletelink" data-id="{$v[id]}" data-type="release"><img src="{AUT_PATH}/img/icon_delete.png" width="16" height="16" /></a>
+			</td>
+		</tr>
+		<!--{/loop}-->
+		</tbody>
+	</table>
+	<div class="pagination pagination-right">
+		{template aut:common/perpage}
+	</div>
+</div>
+<script type="text/javascript">var pageSize = {$perpage};</script>
+<script type="text/javascript" src="{AUT_PATH}/js/sort_table.js"></script>

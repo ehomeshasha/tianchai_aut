@@ -1,0 +1,133 @@
+
+<div id="solution_page">
+	<ul class="nav nav-tabs">
+		<li {if $filter_type == ''}class="active"{/if}>
+			<a class="filter_type_link" href="javascript:;" data-type="all">{lang aut:all}</a>
+		</li>
+		<li {if $filter_type == 'competition'}class="active"{/if}>
+			<a class="filter_type_link" href="javascript:;" data-type="competition">{lang aut:competition}</a>
+		</li>
+		<li {if $filter_type == 'tiku'}class="active"{/if}>
+			<a class="filter_type_link" href="javascript:;" data-type="tiku">{lang aut:tiku}</a>
+		</li>
+		<li {if $filter_type == 'challenge'}class="active"{/if}>
+			<a class="filter_type_link" href="javascript:;" data-type="challenge">{lang aut:challenge}</a>
+		</li>
+	</ul>
+	<div id="search_area">
+	<form class="form-inline" action="{AUT_INDEX_PATH}&home=solution&admin=1" method="post" id="search_form">
+		<input type="hidden" name="filter_type" value="{$filter_type}" id="filter_type" />
+		<input type="hidden" name="view" value="{$view}" class="para_for_pagejump" />
+		<span class="help-inline mbm">Problem Title:</span>
+		<input type="text" class="input-xxlarge mbm" name="problem_title" value="{$problem_title}" />
+		<br/>
+		<span class="help-inline">{lang aut:startdate}:</span>
+		<input class="datepicker datetext input-small height-small" type="text" value="$date['startdate']" name="startdate" id="startdate" readonly="readonly">
+	<span class="help-inline">{lang aut:enddate}:</span>
+	 	<input class="datepicker datetext input-small height-small" type="text" value="$date['enddate']" name="enddate" id="enddate" readonly="readonly">
+	 	<!--{if in_array($_G['groupid'], $_G['aut_settings']['admingroup'])}-->
+	 	<span class="help-inline">User:</span>
+	 	<input type="text" name="username" class="input-small height-small" value="{$username}" />
+	 	<!--{/if}-->
+	 	<span class="help-inline">Result:</span>
+	 	<select name="result" class="input-small height-small">
+	 		<option value="">All</option>
+	 		<!--{loop $_G['ArrayData']['result'] $rs_k $rs_v}-->
+	 		<option value="$rs_k" {if "$rs_k" === $result}selected="selected"{/if}>{$rs_v['text']}</option>
+	 		<!--{/loop}-->
+	 	</select>
+	 	<span class="help-inline">Language:</span>
+	 	<select name="language" class="input-small height-small">
+	 		<option value="">All</option>
+	 		<!--{loop $_G['ArrayData']['solution_language'] $lan_k $lan_v}-->
+	 		<option value="$lan_k" {if "$lan_k" === $language}selected="selected"{/if}>{$lan_v}</option>
+	 		<!--{/loop}-->
+	 	</select>
+	 	&nbsp;&nbsp;
+	 	<button type="submit" class="btn btn-primary search_btn">{lang aut:search}</button>
+	</form>
+	</div>
+	<table class="table table-bordered table-hover table-condensed sort_table" id="table">
+		<thead>
+		<tr>
+			<td width="5%">ID</td>
+			<td width="7%">User</td>
+			<td width="">Problem</td>
+			<td width="10%">Result</td>
+			<td width="5%">Score</td>
+			<td width="5%">Memory</td>
+			<td width="5%">Time</td>
+			<td width="5%">Language</td>
+			<td width="12%">Code Length</td>
+			<td width="16%">Submit Time</td>
+			<td width="5%" class="nosort">Operate</td>
+			
+		</tr>
+		</thead>
+		<tbody>
+		<!--{loop $solutionlist $solution}-->
+		<tr>
+			<td><a href="{AUT_INDEX_PATH}&home=solution&act=detail&sid={$solution['solution_id']}&admin=1">$solution['solution_id']</a></td>
+			<td>$solution['user_name']</td>
+			<td><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$solution[problem_id]);}">$solution['title']</a></td>
+			<td class="result_td" id="result_td_{$solution['solution_id']}">$solution['result']['html']</td>
+			<td>{eval echo pass_rate_format($solution['pass_rate']);}</td>
+			<td>$solution['memory']</td>
+			<td>$solution['time']</td>
+			<td>$_G['ArrayData']['language_name'][$solution['language']]</td>
+			<td>$solution['code_length']</td>
+			<td>$solution['in_date']</td>
+			
+			<td>
+				<!--{if $solution['result']['code'] >= 4 && $solution['result']['code'] <= 11}-->
+				<a href="javascript:;" class="rejudgelink label label-warning" data-id="{$solution[solution_id]}" data-result="{$solution['result']['code']}" data-clickable="true">{lang aut:rejudge}</a>
+				<!--{/if}-->
+				<!--{if $solution['problem_id'] < 20000 && allow_operate($solution['user_id'])}-->
+				<a href="{AUT_INDEX_PATH}&home=solution&act=post&op=edit&sid={$solution['solution_id']}&pid={$solution['problem_id']}">Edit</a>
+				<a href="javascript:;" class="deletelink" data-id="{$solution[solution_id]}" data-type="solution"><img src="{AUT_PATH}/img/icon_delete.png" width="16" height="16" /></a>
+				<!--{/if}-->
+			</td>
+			
+		</tr>
+		<!--{/loop}-->
+		</tbody>
+	</table>
+	<div class="pagination pagination-right">
+		<!--{eval include template('aut:common/perpage')}-->
+	</div>
+</div>
+<script type="text/javascript">
+jQuery(function(){
+	jQuery(".filter_type_link").click(function(){
+		jQuery("#filter_type").val(jQuery(this).attr("data-type"));
+		jQuery("#search_form").submit();
+	});
+	jQuery("#search_form").submit(function(){
+		var formdata = jQuery(this).serialize();
+		var url = jQuery(this).attr("action")+"&"+formdata;
+		window.location.href = url;
+		return false;
+	});
+	jQuery(".rejudgelink").click(function(){
+			var result = jQuery(this).attr("data-result");
+			var id = jQuery(this).attr("data-id");
+			var rejudgelink = jQuery(this);
+			if(result < 4 || result > 11) {
+				alert("{lang aut:program_is_already_runing_cannot_rejudge}");
+				return false;
+			}
+			if(confirm("{lang aut:rejudge_this_solution}?")) {
+				var id = jQuery(this).attr("data-id");
+				var url = "{AUT_INDEX_PATH}&home=solution&act=rejudge&sid="+id+"&admin=1";
+				jQuery.post(url, function(){
+					//jQuery("#result_td_"+id).html("<a href='javascript:;' onclick='window.location.href=location.href' class='btn btn-primary'>{lang aut:refresh_results}</a>");
+					jQuery("#result_td_"+id).html("");
+					rejudgelink.remove();
+				});
+			}
+		
+	});
+});
+</script>
+<script type="text/javascript">var pageSize = {$perpage};</script>
+<script type="text/javascript" src="{AUT_PATH}/js/sort_table.js"></script>

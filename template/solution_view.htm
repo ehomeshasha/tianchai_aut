@@ -1,0 +1,121 @@
+<script type="text/javascript" src="{AUT_PATH}/js/judge_result_display.js"></script>
+<style type="text/css">
+.solution_detail_dl dt {margin-bottom:10px;font-size:16px;}
+</style>
+<div class="solution_view">
+	<!--{loop $solutionlist $solution}-->
+	<fieldset>
+		<legend>Solution ID: {$solution['solution_id']}</legend>
+		<div class="solution_detail_area" style="margin-bottom:30px;">
+			<dl class="solution_detail_dl">
+				<dt>{lang aut:stat_info}</dt>
+				<dd>
+					<table class="table table-bordered table-condensed stat_table" id="stat_table">
+						<tr>
+							<td width="7%">User</td>
+							<td width="">Problem</td>
+							<td width="10%">Result</td>
+							<td width="5%">Score</td>
+							<td width="5%">Memory</td>
+							<td width="5%">Time</td>
+							<td width="5%">Language</td>
+							<td width="12%">Code Length</td>
+							<td width="16%">Submit Time</td>
+							<!--{if $solution['problem_id'] < 20000 && allow_operate($solution['user_id'])}-->
+							<td width="5%">Operate</td>
+							<!--{/if}-->
+						</tr>
+						<tr>
+							<td>{$solution['user_name']}</td>
+							<td><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$solution[problem_id]);}">$solution['title']</a></td>
+							<td>$solution['result']['html']</td>
+							<td>{eval echo pass_rate_format($solution['pass_rate']);}</td>
+							<td>$solution['memory']</td>
+							<td>$solution['time']</td>
+							<td>$_G['ArrayData']['language_name'][$solution['language']]</td>
+							<td>$solution['code_length']</td>
+							<td>$solution['in_date']</td>
+							<!--{if $solution['problem_id'] < 20000 && allow_operate($solution['user_id'])}-->
+							<td>
+								<a href="{AUT_INDEX_PATH}&home=solution&act=post&op=edit&sid={$solution['solution_id']}&pid={$solution['problem_id']}">Edit</a>
+								<a href="javascript:;" class="deletelink" data-id="{$solution[solution_id]}" data-type="solution">Delete</a>
+							</td>
+							<!--{/if}-->
+						</tr>
+					</table>
+				</dd>
+				<!--{if !empty($solution['testing_point'])}-->
+				<dt>{lang aut:testing_point_detail}</dt>
+				<dd>
+					<!--{template aut:testing_point_view}-->
+				</dd>
+				<!--{/if}-->
+			</dl>
+		</div>
+		
+		
+	</fieldset>
+	<!--{/loop}-->
+</div>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	getExplanation();
+});
+jQuery(".deletelink").click(function(){
+	var id = jQuery(this).attr("data-id");
+	var type = jQuery(this).attr("data-type");
+	var url, confirm_msg, style;
+	var msg = '';
+	if(type == 'problem') {
+		url = aut_index_path + "&home=problem&act=delete&pid="+id+"&ajax=1";
+		confirm_msg = "确定要删除这个题目?"; 
+		
+	} else if(type == 'solution') {
+		url = aut_index_path + "&home=solution&act=delete&sid="+id+"&ajax=1";
+		confirm_msg = "确定要删除这个题解?";
+	} else if(type == 'category') {
+		url = aut_index_path + "&home=category&act=delete&cid="+id+"&ajax=1";
+		confirm_msg = "确定要删除这个类别?";
+	} else if(type == 'knowledge') {
+		url = aut_index_path + "&home=knowledge&act=delete&kid="+id+"&ajax=1";
+		confirm_msg = "确定要删除这个知识点?";
+	}
+	
+	if(confirm(confirm_msg)) {
+		jQuery.ajax({
+			url: url,
+            type:'GET',
+            complete :function(){},
+            dataType: 'json', 
+            error: function() { alert('Please try again');},
+            
+            success: function() {
+            	location.href = location.href;
+            	/*
+            	switch (data.code) {
+            		case -1:
+            			style = "alert-error";
+            			break;
+            		case 0:
+            			style = "alert-info";
+            			break;
+            		case 1:
+            			style = "alert-success";
+            			break;
+            	}
+            	/*
+            	msg += "<div class='alert "+style+"' id='aut_message'><button type='button'' class='close clear_session' data-dismiss='alert'>&times;</button><ul style='margin-bottom:0;'>";
+            	for(i=0;i<data.content.length;i++) {
+            		msg += "<li>"+data.content[i]+"</li>";
+            	}
+            	msg += "</ul></div>"
+            	jQuery(".aut_message").html(msg);
+            	setTimeout(function() {
+            		jQuery("#aut_message").fadeOut(1000);
+            	}, 3000);*/
+            }
+		});
+		
+	}
+});
+</script>

@@ -1,0 +1,46 @@
+
+<div class="viewarea">
+	<fieldset>
+		<legend>
+			{lang aut:problem_desc}(ID:{$problem['problem_id']})
+			<!--{if $operation == 'edit'}-->
+			<a href="javascript:;" data-action="collapse" class="collapse_expand" data-control="#problem_table">[{lang aut:collapse}]</a>
+			<!--{/if}-->
+		</legend>
+		<table class="table table-nobordered" id="problem_table" {if $operation == 'edit'}style="display:none;"{/if}>
+			<tr>
+				<td width="60">{lang aut:title}:</td>
+				<td>$problem['title']</td>
+			</tr>
+			<tr>
+				<td>{lang aut:detail}:</td>
+				<td>$problem['description']</td>
+			</tr>
+			<!--{if !empty($problem['input'])}-->
+			<tr>
+				<td>{lang aut:inputformat}:</td>
+				<td><pre>$problem['input']</pre></td>
+			</tr>
+			<!--{/if}-->
+			<!--{if !empty($problem['output'])}-->
+			<tr>
+				<td>{lang aut:outputformat}:</td>
+				<td><pre>$problem['output']</pre></td>
+			</tr>
+			<!--{/if}-->
+			<!--{if !empty($problem['hint'])}-->
+			<tr>
+				<td>{lang aut:hint}:</td>
+				<td>{eval echo getbr($problem['hint'])}</td>
+			</tr>
+			<!--{/if}-->
+			<!--{if !empty($problem['restrict'])}-->
+			<tr>
+				<td>{lang aut:restrict}:</td>
+				<td>{eval echo getbr($problem['restrict'])}</td>
+			</tr>
+			<!--{/if}-->
+			{$exampledisplay}
+		</table>
+	</fieldset>
+</div>

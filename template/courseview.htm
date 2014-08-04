@@ -1,0 +1,126 @@
+<div id="courseview">
+	<div class="course_menu">
+		<div class="isnot_ie6">
+			<!--{loop $_G['aut_cache']['categorytree']['learning'] $cate0}-->
+			<!--{if $cate0['cid'] == $scope}-->
+			{eval $i=0}
+			<!--{loop $cate0['subcate'] $cate_v}-->
+			{eval $i++;}
+			<p class="xs3">{eval echo sprintf(lang('plugin/aut', 'stepcount_p'), $_G['ArrayData']['digitsmap'][$i]);}: {$cate_v['name']}</p>
+			<div class="accordion" id="accordion{$i}">
+				<!--{loop $cate_v['subcate'] $subcate}-->
+				<div class="accordion-group">
+					<div class="accordion-heading">
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion{$i}" href="#collapse{$subcate['cid']}">{$subcate['name']}</a>
+					</div>
+					<div id="collapse{$subcate['cid']}" class="accordion-body collapse {if $cid==$subcate['cid']}in{/if}">
+						<div class="accordion-inner">
+							<ul>
+								<!--{loop $_G['ArrayData']['coursenav'] $key $val}-->
+								<li>
+									<!--{if $key != 'challenge'}-->
+									<a {if in_array($subcate['cid'], $_G['validcate'])}href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=course&act=view&op='.$key.'&cid='.$subcate['cid'].'&scope='.$scope);}" {if $key==$op && $cid==$subcate['cid']}class="highlight"{/if}{else}href="javascript:;" style="color:#999;"{/if}>{$val}</a>
+									<!--{else}-->
+									<span style="display:block;{if !in_array($subcate['cid'], $_G['validcate'])}color:#999;{/if}">{$val}</span>
+									{eval $challengeidArr = getchallengeidArr($subcate['cid']);}
+									<ul>
+										<!--{loop $challengeidArr $challenge}-->
+										<li>
+											<a {if in_array($subcate['cid'], $_G['validcate'])}href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=course&act=view&op=challenge&cid='.$subcate['cid'].'&pid='.$challenge['problem_id'].'&scope='.$scope);}" class="highlight2 {if $op=='challenge' && $pid==$challenge['problem_id']}highlight{/if}"{else}href="javascript:;" style="color:#999;"{/if}>{$challenge['title']}</a>
+											<a {if in_array($subcate['cid'], $_G['validcate'])}href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=course&act=view&op=solution&cid='.$subcate['cid'].'&pid='.$challenge['problem_id'].'&scope='.$scope);}" class="highlight2 {if $op=='solution' && $pid==$challenge['problem_id']}highlight{/if}"{else}href="javascript:;" style="color:#999;"{/if}>[{lang aut:solution}]</a>
+										</li>
+										<!--{/loop}-->
+									</ul>
+									<!--{/if}-->
+								</li>
+								<!--{/loop}-->			
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!--{/loop}-->
+			</div>
+			<!--{/loop}-->
+			<!--{/if}-->
+			<!--{/loop}-->
+		</div>
+		<div class="is_ie6">
+			<!--{loop $_G['aut_cache']['categorytree']['learning'] $cate0}-->
+			<!--{if $cate0['cid'] == $scope}-->
+			{eval $i=0}
+			<!--{loop $cate0['subcate'] $cate_v}-->
+			{eval $i++;}
+			<p class="xs3">{eval echo sprintf(lang('plugin/aut', 'stepcount_p'), $_G['ArrayData']['digitsmap'][$i]);}: {$cate_v['name']}</p>
+			<div class="aut_accordion" id="accordion{$i}">
+				<!--{loop $cate_v['subcate'] $subcate}-->
+				<div class="aut_accordion-group">
+					<div class="aut_accordion-heading">
+						<a class="aut_accordion-toggle" data-parent="#accordion{$i}" href="javascript:;" data-id="{$subcate['cid']}" {if $cid==$subcate['cid']}data-status="collapse"{else}data-status="expand"{/if}>{$subcate['name']}</a>
+					</div>
+					<div id="collapse{$subcate['cid']}" class="aut_accordion-body aut_collapse" {if $cid==$subcate['cid']}style="display:block;"{else}style="display:none;"{/if}>
+						<div class="aut_accordion-inner">
+							<ul>
+								<!--{loop $_G['ArrayData']['coursenav'] $key $val}-->
+								<li>
+									<!--{if $key != 'challenge'}-->
+									<a {if in_array($subcate['cid'], $_G['validcate'])}href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=course&act=view&op='.$key.'&cid='.$subcate['cid'].'&scope='.$scope);}" {if $key==$op && $cid==$subcate['cid']}class="highlight"{/if}{else}href="javascript:;" style="color:#999;"{/if}>{$val}</a>
+									<!--{else}-->
+									<span style="display:block;{if !in_array($subcate['cid'], $_G['validcate'])}color:#999;{/if}">{$val}</span>
+									{eval $challengeidArr = getchallengeidArr($subcate['cid']);}
+									<ul>
+										<!--{loop $challengeidArr $challenge}-->
+										<li>
+											<a {if in_array($subcate['cid'], $_G['validcate'])}href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=course&act=view&op=challenge&cid='.$subcate['cid'].'&pid='.$challenge['problem_id'].'&scope='.$scope);}" class="highlight2 {if $op=='challenge' && $pid==$challenge['problem_id']}highlight{/if}"{else}href="javascript:;" style="color:#999;"{/if}>{$challenge['title']}</a>
+											<a {if in_array($subcate['cid'], $_G['validcate'])}href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=course&act=view&op=solution&cid='.$subcate['cid'].'&pid='.$challenge['problem_id'].'&scope='.$scope);}" class="highlight2 {if $op=='solution' && $pid==$challenge['problem_id']}highlight{/if}"{else}href="javascript:;" style="color:#999;"{/if}>[{lang aut:solution}]</a>
+										</li>
+										<!--{/loop}-->
+									</ul>
+									<!--{/if}-->
+								</li>
+								<!--{/loop}-->			
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!--{/loop}-->
+			</div>
+			<!--{/loop}-->
+			<!--{/if}-->
+			<!--{/loop}-->
+		</div>
+	</div>
+	<div class="course_content">
+		<div style="width:40px;margin:0 auto;height:600px;">
+			<img style="margin-top:220px;" src="{AUT_PATH}/img/ajax_loader.gif" width="40" height="40" />						
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+if(!ie6) {
+	jQuery(".is_ie6").remove();
+} else {
+	jQuery(".isnot_ie6").remove();
+	jQuery(".aut_accordion-toggle").click(function(){
+		var id = jQuery(this).attr("data-id");
+		var status = jQuery(this).attr("data-status");
+		if(status == "collapse") {
+			jQuery("#collapse" + id).fadeOut(400);
+			jQuery(this).attr("data-status", "expand");
+		} else if(status == 'expand') {
+			jQuery("#collapse" + id).fadeIn(400);
+			jQuery(this).attr("data-status", "collapse");
+		}
+	});
+}
+jQuery(function(){
+	jQuery(document).ready(function(){
+		jQuery('.course_content').load("{$course_content_url}",function(){
+			jQuery('.course_content').css("display", "none");
+			jQuery('.course_content').fadeIn(300);
+		});
+		
+	});
+});
+</script>

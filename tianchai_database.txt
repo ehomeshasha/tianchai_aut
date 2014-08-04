@@ -1,0 +1,14 @@
+#table_name
+pre_aut_release
+
+#columns
+id
+authorid
+author
+title
+content
+dateline
+
+
+
+

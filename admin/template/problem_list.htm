@@ -1,0 +1,74 @@
+<div class="well well-small">
+	<a class="btn btn-info mrn" href="{AUT_INDEX_PATH}&home=problem&act=post&admin=1">{lang aut:addchallenge}</a>
+	<a class="btn btn-success" href="{AUT_INDEX_PATH}&home=problem&act=post&type=try&admin=1">{lang aut:addtry}</a>
+	<a class="btn btn-info mrn" href="{AUT_INDEX_PATH}&home=problem&act=post&type=tiku&admin=1">{lang aut:addtiku}</a>
+</div>
+
+<div class="problem_tables">
+	<table class="table table-bordered table-hover table-condensed sort_table" id="table">
+		<thead>
+		<tr>
+			<td width="10%">Problem ID</td>
+			<td width="">Title</td>
+			<td width="5%">Category</td>
+			<td width="5%">Module</td>
+			<td width="5%">AC</td>
+			<td width="5%">Submit</td>
+			<td width="5%" class="nosort">Operate</td>
+		</tr>
+		</thead>
+		<tbody>
+		<!--{loop $problemlist $problem}-->
+		<tr>
+			<td>$problem['problem_id']</td>
+			<td><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$problem[problem_id].'&admin=1');}">$problem['title']</a></td>
+			<td>$problem['category']</td>
+			<td>$problem['module']</td>
+			<td>$problem['accepted']</td>
+			<td>$problem['submit']</td>
+			<td>
+				<a class="editlink" href="{AUT_INDEX_PATH}&home=problem&act=post&op=edit&pid={$problem[problem_id]}&type={$problem['ptype']}&admin=1"><img src="{AUT_PATH}/img/icon_edit.png" width="16" height="16" /></a>
+				<a href="javascript:;" class="deletelink" data-id="{$problem[problem_id]}" data-type="problem"><img src="{AUT_PATH}/img/icon_delete.png" width="16" height="16" /></a>
+				<!-- 
+				<div class="add_to_competition_div">
+					{if $competition_count == 1}
+					<a data-ids="{$competition_ids}" href="javascript:;" class="mtn add_to_competition label label-success" data-id="{$problem[problem_id]}">+{lang aut:competition}</a>
+					{elseif $competition_count > 1}
+					<a data-ids="{$competition_ids}" class="mtn label label-success" data-toggle="modal" data-open="false" data-modal-size="large" data-href="{AUT_INDEX_PATH}&home=problem&act=add_to_competition&pid={$problem[problem_id]}&competition_count={$competition_count}&competition_ids={$competition_ids}&admin=1&ajax=1" href="">+{lang aut:competition}</a>
+					{/if}
+				</div>
+				-->
+			</td>
+		</tr>
+		<!--{/loop}-->
+		</tbody>
+	</table>
+	
+	<div class="pagination pagination-right">
+		{template aut:common/perpage}
+	</div>
+</div>
+<!-- 
+<script type="text/javascript">
+jQuery(function(){
+	jQuery(".add_to_competition").click(function(){
+		var container = jQuery(this).parent();
+		var url = "{AUT_INDEX_PATH}&home=problem&act=add_to_competition&admin=1";
+		var pid = "{$problem[problem_id]}";
+		var competition_ids = jQuery(this).attr("data-ids");
+		var hide_span = "<a href='javascript:;' class='mtn label'>{lang aut:already_in}</a>";
+		
+		jQuery.ajax({
+			url : url,
+			type : "post",
+			data : {pid:pid, competition_count:"1",competition_ids:competition_ids},
+			success: function(){
+				container.html(hide_span);
+			},
+		});
+	});
+});
+</script>
+-->
+<script type="text/javascript">var pageSize = {$perpage};</script>
+<script type="text/javascript" src="{AUT_PATH}/js/sort_table.js"></script>

@@ -1,0 +1,48 @@
+
+
+<form class="discuz_editor_form" action="{AUT_INDEX_PATH}&home=knowledge&act=post&admin=1" id="knowledge_post_form" method="post" autocomplete="off" onsubmit="$('{$editorid}_textarea').value = wysiwyg ? html2bbcode(getEditorContents()) : $('{$editorid}_textarea').value">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="http_referer" value="$_SERVER['HTTP_REFERER']" />
+	<input type="hidden" name="submit" value="true" />
+	<fieldset>
+		<!--{if $op == 'new'}-->
+		<legend>{lang aut:addknowledge}</legend>
+		<!--{elseif $op == 'edit'}-->
+		<legend>{lang aut:editknowledge}</legend>
+		<!--{/if}-->
+		<label>{lang aut:belongcategory}</label>
+		<select name="category" id="category">
+			{$category_html}
+		</select>
+		<label>{lang aut:knowledge_content}</label>
+		<!--{eval include template('aut:common/discuz_editor')}-->
+		<input type="hidden" name="kid" value="{$kid}" />
+		<input type="hidden" name="op" value="{$op}" />
+		<input type="hidden" name="wysiwyg" id="{$editorid}_mode" value="$editormode" />
+		<input type="submit" class="mtw btn btn-primary" id="post_btn" value="{lang aut:submit}" />
+	</fieldset>
+</form>
+
+<script type="text/javascript">
+var editorform = $('knowledge_post_form');
+var editorsubmit = $('post_btn');
+if(wysiwyg) {
+	newEditor(1, bbcode2html(textobj.value));
+} else {
+	newEditor(0, textobj.value);
+}
+</script>
+
+
+<script type="text/javascript">
+jQuery(function(){
+	jQuery("#knowledge_post_form").submit(function(){
+		if(
+			chkEmpty("{lang aut:knowledge_content}", jQuery("textarea[name='knowledge_content']").val().trim())
+		) {
+			return true;
+		}
+		return false;
+	});
+});
+</script>

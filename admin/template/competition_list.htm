@@ -1,0 +1,66 @@
+<div class="well well-small">
+	<a class="btn btn-info mrn" href="{AUT_INDEX_PATH}&home=competition&act=post&admin=1">{lang aut:addcompetition}</a>
+</div>
+
+<div class="problem_tables">
+	<table class="table table-bordered table-hover table-condensed sort_table" id="table">
+		<thead>
+		<tr>
+			<td width="10%">ID</td>
+			<td width="">{lang aut:competition_title}</td>
+			<td width="8%">{lang aut:tishu_pinxin}</td>
+			<td width="8%">{lang aut:display}</td>
+			<td width="">{lang aut:startdate}</td>
+			<td width="">{lang aut:enddate}</td>
+			<td width="8%">{lang aut:status}</td>
+			<td width="15%" class="nosort">Operate</td>
+		</tr>
+		</thead>
+		<tbody>
+		<!--{loop $competitionlist $competition}-->
+		<tr>
+			<td>$competition['id']</td>
+			<td><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=competition&act=view&competition_id='.$competition[id]);}">$competition['title']</a></td>
+			<td>$competition['problem_count']</td>
+			<td>$competition['display_text']</td>
+			<td>$competition['startdatetime']</td>
+			<td>$competition['enddatetime']</td>
+			<td>$competition['status_word']</td>
+			<td>
+				<a class="editlink" href="{AUT_INDEX_PATH}&home=competition&act=post&op=edit&competition_id={$competition[id]}&admin=1"><img src="{AUT_PATH}/img/icon_edit.png" width="16" height="16" /></a>
+				<a href="javascript:;" class="deletelink" data-id="{$competition[id]}" data-type="competition"><img src="{AUT_PATH}/img/icon_delete.png" width="16" height="16" /></a>
+				<!--{if $competition['status'] == 0 && $competition['status_word'] == lang('plugin/aut', 'already_end')}-->
+				<a href="javascript:;" class="publish_result label label-success" data-id="{$competition[id]}">{lang aut:publish_result}</a>
+				<!--{elseif $competition['status'] == 1}-->
+				<a href="javascript:;" class="label" data-id="{$competition[id]}">{lang aut:already_published}</a>
+				<!--{/if}-->
+			</td>
+		</tr>
+		<!--{/loop}-->
+		</tbody>
+	</table>
+	<div class="pagination pagination-right">
+		{template aut:common/perpage}
+	</div>
+</div>
+<script type="text/javascript">
+jQuery(function(){
+	jQuery(".publish_result").click(function(){
+		if(confirm("确定要公布结果?(所有参与比赛人员都将看到自己做题结果,该操作不可逆)")) {
+			var id = jQuery(this).attr("data-id");
+			var thisNode = jQuery(this);
+			jQuery.ajax({
+				url : "{AUT_INDEX_PATH}&home=competition&act=publish_result&admin=1",
+				type : "post",
+				data : {competition_id:id},
+				success : function() {
+					thisNode.removeClass("publish_result").removeClass("label-success").html("已公布");
+				}
+			});
+		}
+		
+	});
+});
+</script>
+<script type="text/javascript">var pageSize = {$perpage};</script>
+<script type="text/javascript" src="{AUT_PATH}/js/sort_table.js"></script>

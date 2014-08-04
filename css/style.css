@@ -1,0 +1,222 @@
+/*common*/
+.table-nobordered {margin-bottom:0;}
+.table-nobordered th, .table-nobordered td{border-top:0;}
+/*body {font-size:12px;}*/
+.z{float:left;}.y{float:right;}
+.line-n{height:38px;line-height:38px;}
+.datetext{width:80px;}
+
+.bred {font-weight:bold;color:#8B0000;}
+.bwarning {font-weight:bold;color:#c09853;}
+.rfd-link {color:#006;}
+.xi2 {color:#336699;}
+
+.background-grey {background-color:#f9f9f9;}
+
+.xs1 {font-size:12px !important;}
+.xs2 {font-size:14px !important;}
+.xs3 {font-size:16px !important;}
+.xw0 {font-weight:normal;}
+.xw1 {font-weight:bold;}
+.mtn {margin-top:5px;}
+.mtm {margin-top:10px;}
+.mtw {margin-top:20px;}
+.mbn {margin-bottom:5px;}
+.mbm {margin-bottom:10px;}
+.mbw {margin-bottom:20px;}
+.ptn {padding-top:5px;}
+.ptm {padding-top:10px;}
+.ptw {padding-top:20px;}
+.pbn {padding-bottom:5px;}
+.pbm {padding-bottom:10px;}
+.pbw {padding-bottom:20px;}
+.mrn {margin-right:5px;}
+.mrm {margin-right:10px;}
+.mrw {margin-right:20px;}
+.mln {margin-left:5px;}
+.mlm {margin-left:10px;}
+.mlw {margin-left:20px;}
+.prn {padding-right:5px;}
+.prm {padding-right:10px;}
+.prw {padding-right:20px;}
+.pln {padding-left:5px;}
+.plm {padding-left:10px;}
+.plw {padding-left:20px;}
+.no-margin {margin:0 !important;}
+.no-margin-top {margin-top: 0 !important;}
+.no-margin-left {margin-left: 0 !important;}
+.no-margin-bottom {margin-bottom: 0 !important;}
+.no-margin-right {margin-right: 0 !important;}
+.no-padding {padding: 0 !important;}
+.no-padding-top {padding-top: 0 !important;}
+.no-padding-left {padding-left: 0 !important;}
+.no-padding-bottom {padding-bottom: 0 !important;}
+.no-padding-right {padding-right: 0 !important;}
+.no-liststyle {list-style:none;}
+
+.bottom-line {border-bottom:1px solid #e5e5e5;}
+.modal.large{
+    width: 960px;
+    margin-left: -490px; /* - width/2 */
+    overflow:hidden;
+}
+.black {color:#000;}
+pre {
+	white-space: pre-wrap; 
+	*white-space: pre; 
+	*word-wrap: break-word;
+}
+.editlink, .deletelink {padding:2px;margin-right:2px;}
+.textarea-xxlarge {height:300px;}
+.textarea-large {height:150px;}
+
+#search_form .height-small {font-size:12px;}
+
+.split-line {border-top:1px solid #ddd;margin-top:20px;margin-bottom:20px;}
+.text-align-right {text-align:right;}
+.text-align-left {text-align:left;}
+
+
+/*mynavbar*/
+.navbar .nav li a.pull-left {float:left;}
+
+
+/*accordion for ie6*/
+.aut_accordion {
+  margin-bottom: 20px;
+}
+.aut_accordion-group {
+  margin-bottom: 2px;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.aut_accordion-heading {
+  border-bottom: 0;
+}
+.aut_accordion-heading .aut_accordion-toggle {
+  display: block;
+  padding: 8px 15px;
+}
+.aut_accordion-toggle {
+  cursor: pointer;
+}
+.aut_accordion-inner {
+  padding: 9px 15px;
+  border-top: 1px solid #e5e5e5;
+}
+
+
+
+/*discuz editor*/
+.b2r #e_autcode {
+	background-position: -120px -20px;
+}
+
+/*problem_list*/
+.language_sel {width:80px;margin-bottom:0;}
+
+
+
+/*problem_post*/
+.hide_example {display:none;}
+.add_example {display:block;}
+.discuz_editor a {color:#444;}
+.discuz_editor a:hover {color:#444;}
+.discuz_editor .btn {font-size:12px;}
+.discuz_editor ul {margin:0;}
+#e_forecolor_menu input {width:12px;}
+#problem_post_form textarea {height:100px;}
+#e_fontname, #e_fontsize {text-align:left;}
+.large_inputbox {width:946px;height:200px;}
+
+/*problem_view*/
+.solution_ul {margin-left:8px;}
+.examplewell {padding:0; width:100%;background-color:#f5f5f5; border:1px solid #e3e3e3;}
+.table .examplewell td {padding:12px;}
+.examplewell .wellin {background-color:#fff;padding:10px;}
+.examplewell .wellin p {border-bottom: 1px dashed #ccc;padding-bottom: 5px;}
+
+/*solution_post*/
+.banner-grey {height:20px;background-color:#ebebeb; border:1px solid #e3e3e3;}
+.banner-grey-top {border-bottom:0;padding:5px 15px;}
+.banner-grey-bottom {border-top:0;padding:0px 15px;}
+
+.solution_editor { 
+	position:absolute;
+	margin:0 auto;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height:400px;
+}
+.ie6textarea {
+	width:98%;
+	height:400px;
+}
+.btn-gray {
+	color:#ccc;
+}
+
+/*solution_list*/
+.solution_table tr td {vertical-align:middle;}
+
+
+/*courseview*/
+.course_menu {width:280px;overflow:hidden;float:left;margin-right:10px;}
+.course_content {width:628px;overflow:hidden;float:left; border:1px solid #e5e5e5;padding:20px;margin-top:30px;}
+.course_menu a {color:#333;}
+.course_menu a.highlight2 {color:#336699;}
+.course_menu a.highlight {color:#F26C4F;font-weight:bold;}
+.error_text {background:none;border:0;}
+
+/*tiku_category*/
+.tiku_category_li {float:left;min-width:100px;width:100px;}
+.cate_label {display:inline;vertical-align:middle;}
+input.cate_checkbox, input.cate_radiobox {vertical-align:middle;margin-top:0px;height:13px;width:13px;}
+.category_block {clear:both;}
+.tiku_category_table tr td {border-bottom:1px solid #e5e5e5;padding:10px 0 10px 0;height:90px;overflow:auto;}
+
+/*tiku_list*/
+.tiku_left {float:left;width:595px;margin-right:15px;}
+.tiku_right {float:right;width:350px;}
+.refine_menu a {}
+.expandicon {margin-top:4px;}
+.cate1_table tr td {padding:2px 0;}
+.cate0_ul {margin-left:0;margin-bottom:15px;}
+.contest_li {float:left; width:80px;}
+ul.subnav {margin-left:10px;margin-bottom:10px;}
+.refine_menu a {background:none;}
+.refine_menu a:hover {color: #f89406;}
+.refine_menu a.active {color: #b94a48;font-weight: bold;}
+
+
+/*sort table*/
+/*
+.table-bordered>caption+thead>tr:first-child>th, .table-bordered>colgroup+thead>tr:first-child>th, .table-bordered>thead:first-child>tr:first-child>th, .table-bordered>caption+thead>tr:first-child>td, .table-bordered>colgroup+thead>tr:first-child>td, .table-bordered>thead:first-child>tr:first-child>td {
+    border-bottom:0;
+}*/
+.table.sort_table thead td {
+    cursor:pointer;
+}
+.sort_table .head {
+    background:url("../img/up_down_arrow.png") no-repeat scroll 93% 50%;
+    padding-right:15px;
+}
+.sort_table thead:first-child>tr:first-child>td.asc {
+    background:url("../img/up_arrow.gif") no-repeat 95% 50%;
+    border-top:3px solid #FFCC00;
+}
+.sort_table thead:first-child>tr:first-child>td.desc {
+    background:url("../img/down_arrow.gif") no-repeat 95% 50%;
+    border-top:3px solid #FFCC00;
+}
+
+/*filter_table*/
+.filter_table {margin-bottom:10px;}
+.filter_table .control-group {margin-bottom:0;}
+.filter_table .control-label {width:auto; margin-right:10px;}
+.filter_table .controls {margin-left:0;}

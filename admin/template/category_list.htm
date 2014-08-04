@@ -1,0 +1,14 @@
+
+<div class="well well-small">
+	<a class="btn btn-info" href="{AUT_INDEX_PATH}&home=category&act=post&admin=1">{lang aut:addcategory}</a>
+</div>
+<div>
+	<fieldset>
+		<!--{loop $_G['aut_cache']['categorytree'] $k $v}-->
+		<legend>{$_G['ArrayData']['ctype'][$k]}</legend>
+		<ul>
+			{eval echo init_categorylist($v)}
+		</ul>
+		<!--{/loop}-->
+	</fieldset>
+</div>

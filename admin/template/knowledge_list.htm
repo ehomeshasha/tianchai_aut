@@ -1,0 +1,36 @@
+<div class="well well-small">
+	<a class="btn btn-info" href="{AUT_INDEX_PATH}&home=knowledge&act=post&admin=1">{lang aut:addknowledge}</a>
+</div>
+
+<div class="knowledge_tables">
+	<table class="table table-bordered table-hover table-condensed sort_table" id="table">
+		<thead>
+		<tr>
+			<td width="5%">ID</td>
+			<td width="" class="nosort">Content</td>
+			<td width="8%">Category</td>
+			<td width="5%" class="nosort">Operate</td>
+		</tr>
+		</thead>
+		<tbody>
+		<!--{loop $knowledge_list $v}-->
+		<tr>
+			<td>$v['kid']</td>
+			<td>
+				$v['content']
+			</td>
+			<td>$v['name']</td>
+			<td>
+				<a class="editlink" href="{AUT_INDEX_PATH}&home=knowledge&act=post&op=edit&kid={$v[kid]}&admin=1"><img src="{AUT_PATH}/img/icon_edit.png" width="16" height="16" /></a>
+				<a href="javascript:;" class="deletelink" data-id="{$v[kid]}" data-type="knowledge"><img src="{AUT_PATH}/img/icon_delete.png" width="16" height="16" /></a>
+			</td>
+		</tr>
+		<!--{/loop}-->
+		</tbody>
+	</table>
+	<div class="pagination pagination-right">
+		{template aut:common/perpage}
+	</div>
+</div>
+<script type="text/javascript">var pageSize = {$perpage};</script>
+<script type="text/javascript" src="{AUT_PATH}/js/sort_table.js"></script>

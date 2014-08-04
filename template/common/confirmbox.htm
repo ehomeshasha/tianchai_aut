@@ -1,0 +1,31 @@
+{$cfm_box['submit_javascript']}
+<form action="{$cfm_box['action']}" id="modal_form" method="post" style="margin-bottom:0;" onsubmit="">
+<div class="modal-header">
+	<a class="close" data-dismiss="modal">&times;</a>
+	<h3>$cfm_box['title']</h3>
+</div>
+<div class="modal-body">
+	<!--{loop $cfm_box['input'] $k=>$v}-->
+	<input type="hidden" value="{$v}" name="{$k}" />
+	<!--{/loop}-->
+	<!--{if !empty($cfm_box['body_include'])}-->
+	<!--{eval include template($cfm_box['body_include'], 0, $cfm_box['body_include_dir']);}-->
+	<!--{else}-->
+	<p>
+		<!--{if !empty($cfm_box['icon'])}-->
+		<i class="$cfm_box['icon'] mrn"></i>
+		<!--{/if}-->
+		{$cfm_box['body']}
+	</p>
+	<!--{/if}-->
+	
+</div>
+<div class="modal-footer">
+	<!--{if !empty($cfm_box['button1'])}-->
+	<button id="modal_form_post_btn" class="btn btn-primary" type="submit">$cfm_box['button1']</button>
+	<!--{/if}-->
+	<!--{if !empty($cfm_box['button2'])}-->
+	<a class="btn dismiss_btn" data-dismiss="modal">$cfm_box['button2']</a>
+	<!--{/if}-->
+</div>
+</form>

@@ -1,0 +1,24 @@
+
+<div id="courselist">
+	<!--{loop $_G['aut_cache']['categorytree']['learning'] $cate0}-->
+	<div class="scope">
+		<h3>{$cate0['name']}</h3>
+		<div class="chapter">
+			<!--{loop $cate0['subcate'] $cate1}-->
+			<fieldset>
+				<legend>{$cate1['name']}</legend>
+				<pre>{$cate1['description']}</pre>
+				<ul>
+					{eval $i=0;}
+					<!--{loop $cate1['subcate'] $cate2}-->
+					{eval $i++;}
+					<li><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=course&act=view&cid='.$cate2['cid'].'&scope='.$cate0['cid']);}" class="xs3">{$i}.{$cate2['name']}</a></li>
+					<!--{/loop}-->
+				</ul>
+			</fieldset>
+			
+			<!--{/loop}-->
+		</div>
+	</div>
+	<!--{/loop}-->
+</div>

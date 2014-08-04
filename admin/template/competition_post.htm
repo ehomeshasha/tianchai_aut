@@ -1,0 +1,241 @@
+
+
+<form class="competition_form" action="{AUT_INDEX_PATH}&home=competition&act=post&admin=1" id="competition_post_form" method="post" autocomplete="off">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="http_referer" value="{$_SERVER['HTTP_REFERER']}" />
+	<input type="hidden" name="submit" value="true" />
+	<fieldset>
+		<legend>{lang aut:competition_post}</legend>
+		<label>{lang aut:competition_title}</label>
+		<input type="text" class="input-xxlarge" id="competition_title" name="competition_title" maxlength="255" value="$competition['title']" />
+		<label>{lang aut:startdate}</label>
+		<input class="input-medium datetimepicker" type="text" data-date-format="yyyy-mm-dd" value="$competition['startdatetime']" name="startdatetime" id="startdatetime" readonly="readonly">
+		<label>{lang aut:enddate}</label>
+		<input class="input-medium datetimepicker" type="text" value="$competition['enddatetime']" name="enddatetime" id="enddatetime" readonly="readonly">
+		<label>{lang aut:competition_short_description}</label>
+		<textarea id="short_description" name="short_description" class="input-xxlarge textarea-large">$competition['short_description']</textarea>
+		<label>{lang aut:competition_description}</label>
+		<textarea id="description" name="description" class="input-xxlarge textarea-xxlarge">$competition['description']</textarea>
+		<label class="inline">{lang aut:is_show_up_at_front}</label>
+		<label class="radio inline">
+  			<input type="radio" name="displayorder" value="0" {if $competition['displayorder'] == 0}checked="checked"{/if}>
+  			{lang aut:yes}
+		</label>
+		<label class="radio inline">
+  			<input type="radio" name="displayorder" value="-1" {if $competition['displayorder'] == -1}checked="checked"{/if}>
+  			{lang aut:no}
+		</label>
+		<br/>
+		<br/>
+		<label>{lang aut:already_select_problem}</label>
+		<div class="problems">
+			<input type="hidden" name="pid_list" value="$competition['pid_list']" id="pid_list" />
+			<ul class="problems_ul">
+				<!--{loop $problems $problem}-->
+				<li id="problems_li_{$problem['problem_id']}">
+					<span>{$problem['title']}</span>
+					<a href="javascript:;" class="delete_problem_link" data-id="{$problem['problem_id']}"><i class='icon-remove'></i></a>
+				</li>
+				<!--{/loop}-->
+			</ul>
+		</div>
+		<div class="split-line"></div>
+		<div class="choose_problem_area">
+			<div class="filter_area">
+				<table class="filter_table form-horizontal" cellspacing="0" cellpadding="0" width="100%">
+					<tr>
+						<td width="8%"><span>{lang aut:filter_condition}:</span></td>
+						<td>
+							<div class="control-group">
+								<label class="control-label">{lang aut:id_scope}</label>
+								<div class="controls">
+									<input type="text" class="input-mini" value="" name="start_num" id="start_num" /> ~
+									<input type="text" class="input-mini" value="" name="end_num" id="end_num" />
+								</div>
+							</div>
+						</td>
+						<td width="15%">
+							<div class="control-group">
+								<label class="control-label">{lang aut:source_from}</label>
+								<div class="controls">
+									<select name="module" id="sel_module" class="input-small">
+										<option value="">{lang aut:all}</option>
+										<!--{loop $_G['ArrayData']['module_map'] $m_k $m_v}-->
+										<option value="$m_k">$m_v</option>
+										<!--{/loop}-->
+									</select>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="control-group">
+								<label class="control-label">{lang aut:title}</label>
+								<div class="controls">
+									<input type="text" class="input-xlarge" value="" name="title" id="title" />
+								</div>
+							</div>
+						</td>
+						<td>
+							<button class="btn btn-primary" type="button" id="filter_btn">{lang aut:filter}</button>
+						</td>
+					</tr>
+				</table>
+				
+			</div>
+			<table class="table table-bordered table-hover table-condensed sort_table mbn" id="table">
+				<thead>
+				<tr>
+					<td width="10%">Problem ID</td>
+					<td width="">Title</td>
+					<td width="5%">Module</td>
+					<td width="5%" class="nosort">Operate</td>
+				</tr>
+				</thead>
+				<tbody class="table_tbody">
+				{eval $this->get_problemlist_action($op);}
+				</tbody>
+			</table>
+			<div class="pages clearfix">
+				<div class="pull-left form-inline">
+					<span class="help-inline">{lang aut:record_perpage}</span>
+					<select class="input-mini" style="font-size:12px;padding-left:0px;padding-right:0;" id="sel_perpage">
+						<!--{loop $_G['ArrayData']['page_selection'] $page_number}-->
+						<option value="$page_number" {if $this->problem_perpage == $page_number}selected="selected"{/if}>$page_number</option>
+						<!--{/loop}-->
+					</select>
+				</div>
+				<div class="pull-right">
+				<a href="javascript:;" id="go_prev">{lang aut:go_prev_page}</a>
+				<a href="javascript:;" id="go_next">{lang aut:go_next_page}</a>
+				<span>{lang aut:di_pinxin}</span>
+				<span id="current_page">1</span>
+				<span>/</span>
+				<span id="total_page">{$this->problem_total_page}</span>
+				<span>{lang aut:ye_pinxin}</span>
+				</div>
+			</div>
+		</div>
+		<div class="split-line"></div>
+		<div>
+			<input type="hidden" name="competition_id" value="{$competition['id']}" />
+			<input type="hidden" name="op" value="{$op}" />
+			<input type="submit" class="btn btn-primary" id="post_btn" value="{lang aut:submit}" />
+		</div>
+	</fieldset>
+</form>
+<style type="text/css">
+.problems_ul li {list-style:inherit;}
+</style>
+<script type="text/javascript">
+jQuery(function(){
+	var total_page = parseInt(jQuery("#total_page").html());
+	var url = "{AUT_INDEX_PATH}&home=competition&act=get_problemlist&admin=1";
+	jQuery("#go_prev, #go_next").click(function(){
+		var opt = jQuery(this).attr("id");
+		var current_page = parseInt(jQuery("#current_page").html());
+		if(opt == "go_prev") {
+			if(current_page <= 1) return false;
+			var page = current_page-1;
+		} else if(opt == "go_next") {
+			if(current_page >= total_page) return false;
+			var page = current_page+1;
+		} else {
+			return false;
+		}
+		
+		get_problem_ajax_content(page);
+	});
+	jQuery("#filter_btn").click(function(){
+		//var page = parseInt(jQuery("#current_page").html());
+		get_problem_ajax_content(1);
+	});
+	function get_problem_ajax_content(page, perpage) {
+		if(typeof perpage == "undefined") {
+			perpage = "";
+		}
+		jQuery.ajax({
+			url : url+"&page="+page+"&perpage="+perpage,
+			type : "post",
+			data : {start_num:jQuery("#start_num").val(), end_num:jQuery("#end_num").val(), module:jQuery("#sel_module").val(), title:jQuery("#title").val()},
+			success: function(data) {
+				jQuery(".table_tbody").html(data);
+				jQuery("#current_page").html(page);
+				total_page = jQuery(".problems_tr").attr("data-perpage");
+				jQuery("#total_page").html(total_page);
+				jQuery("#total_page_container").parent().parent().remove();
+				 
+			},
+		});
+	}
+	var alreay_in_span = "<a href='javascript:;' class='mtn label'>{lang aut:already_in}</a>";
+	
+	jQuery(".add_to_competition").live("click", function(){
+		var pid = jQuery(this).attr("data-id");
+		var pid_list = jQuery("#pid_list").val();
+		if(pid_list == "") {
+			pid_list = pid;
+		} else {
+			var pidArr = pid_list.split(",");
+			for(i=0;i<pidArr.length;i++) {
+				if(pidArr[i] == pid) {
+					alert("请不要重复添加题目");
+					return false;
+				}
+			}
+			pid_list += ","+pid;
+		}
+		jQuery("#pid_list").val(pid_list);
+		var title = jQuery(this).parent().siblings(".td_title").find("a").html();
+		var delete_link = "<a href='javascript:;' class='delete_problem_link' data-id='"+pid+"'><i class='icon-remove'></i></a>";
+		jQuery(".problems_ul").append("<li id='problems_li_"+pid+"' style='display:none;'><span>"+title+"</span>"+delete_link+"</li>");
+		jQuery("#problems_li_"+pid).fadeIn(300)
+		jQuery(this).parent().html(alreay_in_span);
+	});
+	jQuery(".delete_problem_link").live("click", function(){
+		var pid = jQuery(this).attr("data-id");
+		var pid_list = jQuery("#pid_list").val();
+		var pidArr = pid_list.split(",");
+		var pid_list_new = "";
+		for(i=0;i<pidArr.length;i++) {
+			if(pidArr[i] == pid) {
+				continue;	
+			}
+			pid_list_new += ","+pidArr[i]
+		}
+		pid_list_new = pid_list_new.substr(1);
+		jQuery("#pid_list").val(pid_list_new);
+		jQuery(this).parent().remove();
+	});
+	jQuery("#sel_perpage").change(function(){
+		var perpage = jQuery(this).val();
+		get_problem_ajax_content(1, perpage);
+	});
+});
+</script>
+
+<script type="text/javascript">
+jQuery(function(){
+	jQuery("#competition_post_form").submit(function(){
+		var datetime_regex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/
+		if(
+			chkLength("{lang aut:competition_title}", jQuery("#competition_title").val().trim(), 0, 255) &&
+			chkRegEx("{lang aut:startdate}", jQuery("#startdatetime").val().trim(), datetime_regex) &&
+			chkRegEx("{lang aut:enddate}", jQuery("#enddatetime").val().trim(), datetime_regex) &&
+			chkLength("{lang aut:competition_short_description}", jQuery("#short_description").val().trim(), 0, 255) &&
+			chkEmpty("{lang aut:competition_description}", jQuery("#description").val().trim()) &&
+			chkEmpty("{lang aut:competition_problem}", jQuery("#pid_list").val().trim())
+		) {
+			return true;
+		}
+		return false;
+	});
+});
+</script>
+
+<link rel="stylesheet" type="text/css" href="{AUT_PATH}/css/bootstrap-datetimepicker.min.css" />
+<script type="text/javascript" src="{AUT_PATH}/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript">
+jQuery(".datetimepicker").datetimepicker({format: "yyyy-mm-dd hh:ii"});
+</script>
+<script type="text/javascript">var pageSize = {$this->problem_perpage};</script>
+<script type="text/javascript" src="{AUT_PATH}/js/sort_table.js"></script>

@@ -1,0 +1,91 @@
+
+<div class="tiku_area">
+	<div class="tiku_left">
+		<div class="problem_list mtm">
+			<table class="table table-bordered table-hover table-condensed sort_table" id="table">
+				<thead>
+				<tr>
+					<td width="10%">ID</td>
+					<td width="">Title</td>
+					<td width="8%">AC</td>
+					<td width="8%">Submit</td>
+				</tr>
+				</thead>
+				<tbody>
+				<!--{loop $problemlist $problem}-->
+				<tr>
+					<td>$problem['problem_id']</td>
+					<td><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$problem[problem_id]);}">$problem['title']</a></td>
+					<td>$problem['accepted']</td>
+					<td>$problem['submit']</td>
+				</tr>
+				<!--{/loop}-->
+				</tbody>
+			</table>
+			<div class="pagination pagination-right">
+				<!--{eval include template('aut:common/perpage')}-->
+			</div>
+		</div>
+	</div>
+	<div class="tiku_right">
+		<div class="refine_menu">
+			<!--{loop $_G['aut_cache']['categorytree']['tiku'] $cate0}-->
+			<h4>{$cate0['name']}</h4>
+			<!--{if $cate0['cid'] == $_G['aut_settings']['cateradio_cid']}-->
+			<div>
+				<a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=tiku&category=&cateid_1='.$cateid_1.'&cateid_2='.$cateid_2);}" {if empty($category)}class="active"{/if}>{lang aut:all}</a>
+			</div>
+			<ul class="cl cate0_ul">
+				<!--{loop $cate0['subcate'] $cate1}-->
+				<li class="contest_li">
+					<a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=tiku&category='.$cate1['cid'].'&cateid_1='.$cateid_1.'&cateid_2='.$cateid_2);}" {if $category == $cate1['cid']}class="active"{/if}>{$cate1['name']}({eval echo getcategorycount($cate1['cid']);})</a>
+				</li>
+				<!--{/loop}-->
+			</ul>
+			<!--{else}-->
+			<div>
+				<a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=tiku&category='.$category.'&cateid_1=&cateid_2=');}" {if empty($cateid_1) && empty($cateid_2)}class="active"{/if}>{lang aut:all}</a>
+			</div>
+			<table cellspacing="0" cellpadding="0" width="100%" class="cate0_table">
+				<tr>
+					{eval $cate0_split = split_numeric_array($cate0['subcate'], 3);}
+					<!--{loop array_keys($cate0_split) $n}-->
+					<td valign="top" width="33%">
+						<table cellspacing="0" cellpadding="0" width="100%" class="cate_box{$n}">
+							<!--{loop $cate0_split[$n] $cate1}-->
+							<tr>
+								<!--{if !empty($cate1['subcate'])}-->
+								<td width="16" valign="top">
+								<!--{if $cateid_1 == $cate1['cid']}-->
+								<img class="expandicon" data-role="collapse" src="{AUT_PATH}/img/collapse-small-orange-Shapes4FREE.png" height="12" width="12" />
+								<!--{else}-->
+								<img class="expandicon" data-role="expand" src="{AUT_PATH}/img/expand-small-orange-Shapes4FREE.png" height="12" width="12" />
+								<!--{/if}-->
+								</td>
+								<td>
+									<a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=tiku&category='.$category.'&cateid_1='.$cate1['cid'].'&cateid_2=');}" {if $cateid_1 == $cate1['cid']}class="active"{/if}>{$cate1['name']}({eval echo getcategorycount($cate1['cid'],'cateid_1');})</a>
+									<ul class="cl subnav" style="display:{if $cateid_1 == $cate1['cid']}block;{else}none;{/if}">
+										<!--{loop $cate1['subcate'] $cate2}-->
+										<li>
+											<a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=tiku&category='.$category.'&cateid_1='.$cate1['cid'].'&cateid_2='.$cate2['cid']);}" {if $cateid_2 == $cate2['cid']}class="active"{/if}>{$cate2['name']}({eval echo getcategorycount($cate2['cid'], 'cateid_2');})</a>
+										</li>
+										<!--{/loop}-->
+									</ul>
+								</td>
+								<!--{else}-->
+								<td width="16"></td><td><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=tiku&category='.$category.'&cateid_1='.$cate1['cid'].'&cateid_2=');}" {if $cateid_1 == $cate1['cid']}class="active"{/if}>{$cate1['name']}({eval echo getcategorycount($cate1['cid'], 'cateid_1');})</a></td>
+								<!--{/if}-->
+							</tr>
+							<!--{/loop}-->
+						</table>
+					</td>
+					<!--{/loop}-->
+				</tr>
+			</table>
+			<!--{/if}-->
+			<!--{/loop}-->
+		</div>
+	</div>
+</div>
+<script type="text/javascript">var pageSize = {$perpage};</script>
+<script type="text/javascript" src="{AUT_PATH}/js/sort_table.js"></script>

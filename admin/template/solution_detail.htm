@@ -1,0 +1,108 @@
+<div class="solution_view">
+
+<script type="text/javascript" src="{AUT_PATH}/js/judge_result_display.js"></script>
+<fieldset>
+	<legend>Solution ID: {$solution['solution_id']}</legend>
+	<table class="table table-nobordered">
+		<tr>
+			<td width="15%">Problem:</td>
+			<td><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$solution[problem_id]);}">$solution['title']</a></td>
+		</tr>
+		<tr>
+			<td style="height:30px;line-height:30px;">Result:</td>
+			<td>$solution['result']['html']</td>
+		</tr>
+		<!--{if !empty($solution['result']['type'])}-->
+		<tr>
+			<td>Detail:</td>
+			<td class="result_detail">
+				<div class="alert {if $solution['result']['type'] == 'runtime'}alert-error{/if}">
+					<pre class="error_text">
+						{eval echo get_result_detail($solution[solution_id], $solution['result']['type']);}
+					</pre>
+					<div class="error_explain"></div>
+				</div>
+			</td>
+		</tr>
+		<!--{/if}-->
+		<tr>
+			<td>Score:</td>
+			<td>{eval echo pass_rate_format($solution['pass_rate']);}</td>
+		</tr>
+		<tr>
+			<td>Memory:</td>
+			<td>$solution['memory']</td>
+		</tr>
+		<tr>
+			<td>Time:</td>
+			<td>$solution['time']</td>
+		</tr>
+		<tr>
+			<td>Language:</td>
+			<td>$_G['ArrayData']['language_name'][$solution['language']]</td>
+		</tr>
+		<tr>
+			<td>Code Length:</td>
+			<td>$solution['code_length']</td>
+		</tr>
+		<tr>
+			<td>Submit Time:</td>
+			<td>$solution['in_date']</td>
+		</tr>
+		<tr>
+			<td>Operate:</td>
+			<td>
+				<a href="javascript:;" class="deletelink" data-id="{$solution[solution_id]}" data-type="solution">Delete</a>
+			</td>
+		</tr>
+		<tr>
+			<td>Source Code:</td>
+			<td>
+				<pre name="code" class="{$_G['ArrayData']['language2syntaxhighlighter'][$solution['language']]}">$solution['source']</pre>
+			</td>	
+		</tr>
+		
+	</table>
+</fieldset>
+</div>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	getExplanation();
+});
+</script>
+
+
+<link type="text/css" rel="stylesheet" href="{AUT_PATH}/syntaxhighlighter/styles/shCore.css" />
+<link type="text/css" rel="stylesheet" href="{AUT_PATH}/syntaxhighlighter/styles/shThemeDefault.css" />
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shLegacy.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shAutoloader.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushAppleScript.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushAS3.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushBash.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushColdFusion.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushCpp.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushCSharp.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushCss.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushDelphi.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushDiff.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushErlang.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushGroovy.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushJava.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushJavaFX.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushPerl.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushPhp.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushPlain.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushPowerShell.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushPython.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushRuby.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushSass.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushScala.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushSql.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushVb.js"></script>
+<script type="text/javascript" src="{AUT_PATH}/syntaxhighlighter/scripts/shBrushXml.js"></script>
+<script type="text/javascript">
+
+dp.SyntaxHighlighter.HighlightAll('code');
+</script>

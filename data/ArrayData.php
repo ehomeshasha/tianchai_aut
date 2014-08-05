@@ -35,8 +35,18 @@ $MSG_Pending_Rejudging,
 $MSG_Compiling,
 $MSG_Running_Judging,$MSG_Accepted,$MSG_Presentation_Error,$MSG_Wrong_Answer,$MSG_Time_Limit_Exceed,$MSG_Memory_Limit_Exceed,$MSG_Output_Limit_Exceed,$MSG_Runtime_Error,$MSG_Compile_Error,$MSG_Compile_OK,$MSG_TEST_RUN);
  */
+global $_G;
+$page_selection = array('5','10','20','50','100','500','1000');
+if(!in_array($_G['aut_settings']['perpage'], $page_selection)) {
+	array_push($page_selection, $_G['aut_settings']['perpage']);
+	sort($page_selection);
+}
+
+
+
+
 $ArrayData = array(
-	'page_selection' => array('5','10','20','50','100','500','1000'),	
+	'page_selection' => $page_selection,	
 
 
 

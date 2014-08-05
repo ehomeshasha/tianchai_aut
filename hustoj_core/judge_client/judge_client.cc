@@ -1666,7 +1666,7 @@ void clean_session(pid_t p) {
 	execute_cmd("ps aux |grep \\^judge|awk '{print $2}'|xargs kill");
 }
 
-void watch_solution(pid_t pidApp, char * infile, int & ACflg, int isspj,
+void watch_solution(char* fname, pid_t pidApp, char * infile, int & ACflg, int isspj,
 		char * userfile, char * outfile, char * usedtimefile, int solution_id,
 		int lang, int & topmemory, int mem_lmt, int & usedtime, int time_lmt,
 		int & p_id, int & PEflg, char * work_dir) {
@@ -1824,7 +1824,7 @@ void watch_solution(pid_t pidApp, char * infile, int & ACflg, int isspj,
 
 	//addby zzy 2014.05.21
 	FILE *fp = fopen(usedtimefile, "a+");
-	fprintf(fp, "%d,", usedtime);
+	fprintf(fp, "%s#%d,", fname, usedtime);
 	fclose(fp);
 }
 void clean_workdir(char * work_dir) {
@@ -2130,7 +2130,7 @@ int main(int argc, char** argv) {
 		if (pidApp == 0) {
 			run_solution(lang, work_dir, time_lmt, usedtime, mem_lmt);
 		} else {
-			watch_solution(pidApp, infile, ACflg, isspj, userfile, outfile,
+			watch_solution('\0', pidApp, infile, ACflg, isspj, userfile, outfile,
 					usedtimefile, solution_id, lang, topmemory, mem_lmt,
 					usedtime, time_lmt, p_id, PEflg, work_dir);
 
@@ -2169,7 +2169,7 @@ int main(int argc, char** argv) {
 
 			num_of_test++;
 
-			watch_solution(pidApp, infile, ACflg, isspj, userfile, outfile,
+			watch_solution(dirp->d_name, pidApp, infile, ACflg, isspj, userfile, outfile,
 					usedtimefile, solution_id, lang, topmemory, mem_lmt,
 					usedtime, time_lmt, p_id, PEflg, work_dir);
 
@@ -2186,12 +2186,12 @@ int main(int argc, char** argv) {
 
 		//addby zzy 2014.05.22
 		FILE *flagfp = fopen(flagfile, "a+");
-		fprintf(flagfp, "%d,", ACflg);
+		fprintf(flagfp, "%s#%d,", dirp->d_name, ACflg);
 		fclose(flagfp);
 
 		FILE *scorefp = fopen(scorefile, "a+");
 		int score = ACflg == OJ_AC ? 10 : 0;
-		fprintf(scorefp, "%d,", score);
+		fprintf(scorefp, "%s#%d,", dirp->d_name, score);
 		fclose(scorefp);
 
 

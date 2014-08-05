@@ -27,11 +27,25 @@ function get_testing_point($flag_list, $score_list, $usedtime_list) {
 	$usedtimeArr = explode(",", $usedtime_list);
 	if(count($flagArr) == count($scoreArr) && count($scoreArr) == count($usedtimeArr)) {
 		foreach($flagArr as $k=>$flag) {
-			$data[$k] = array(
-				'flag' => $flag,
-				'score' => $scoreArr[$k],
-				'usedtime' => $usedtimeArr[$k],
-			);
+			$flags = explode("#", $flag);
+			$scores = explode("#", $scoreArr[$k]);
+			$usedtimes = explode("#", $usedtimeArr[$k]);
+			
+			if(count($flags) == 1) {
+			
+				$data[$k] = array(
+					'flag' => $flag,
+					'score' => $scoreArr[$k],
+					'usedtime' => $usedtimeArr[$k],
+				);
+			} elseif(count($flags) == 2) {
+				$data[$k] = array(
+					'fname' => $flags[0],
+					'flag' => $flags[1],
+					'score' => $scores[1],
+					'usedtime' => $usedtimes[1],
+				);
+			}
 		}
 		return $data;
 	}

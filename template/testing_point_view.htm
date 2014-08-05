@@ -8,9 +8,9 @@
 	{eval $point_number=0;}
 	<!--{loop $solution['testing_point'] $point}-->
 	<tr>
-		{eval $point_number++;
+		{eval 
 		$result = getresultArr($point['flag'], $solution['solution_id']);}
-		<td>{$point_number}</td>
+		<td>$point['fname']</td>
 		<td>{$result['html']}</td>
 		<td>{$point['score']}</td>
 		<td>{$point['usedtime']}ms</td>

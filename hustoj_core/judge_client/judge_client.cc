@@ -359,12 +359,20 @@ void make_diff_out(FILE *f1, FILE *f2, int c1, int c2, const char * path) {
 	if (fgets(buf, 44, f1)) {
 		fprintf(out, "%s", buf);
 	}
+	//addby zzy 2014.08.05
+	if(buf[strlen(buf)-2] != '\n' && buf[strlen(buf)-2] != '\r' && !feof(f1)) {
+		fprintf(out, "...");
+	}
+
 	fprintf(out, "\n-----------------\n");
 	fprintf(out, "Your:\n%c", c2);
 	if (fgets(buf, 44, f2)) {
 		fprintf(out, "%s", buf);
 	}
-	fprintf(out, "\n=================\n");
+	if(buf[strlen(buf)-2] != '\n' && buf[strlen(buf)-2] != '\r' && !feof(f2)) {
+		fprintf(out, "...");
+	}
+	fprintf(out, "\n###############################################################################\n");
 	fclose(out);
 }
 
@@ -410,7 +418,7 @@ int compare_zoj(const char *file1, const char *file2) {
 				if (c1 == EOF && c2 == EOF) {
 					goto end;
 				}
-				if (c1 == EOF || c2 == EOF) {
+				if ((c1 == EOF && !isspace(c2)) || (c2 == EOF && !isspace(c1))) {
 					ret = OJ_WA;
 					goto end;
 				}

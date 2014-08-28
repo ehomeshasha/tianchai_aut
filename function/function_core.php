@@ -8,6 +8,12 @@ require_once AUT_PATH."/function/function_editor.php";
 require_once AUT_PATH."/function/function_permission.php";
 require_once AUT_PATH."/function/function_validation.php";
 
+function display_errors() {
+	error_reporting(E_ALL);
+	ini_set("display_errors", "On");
+}
+
+
 function jumpto_list_page($http_referer) {
 	global $_G;
 	if(strpos($http_referer, "&act=post") !== false) {

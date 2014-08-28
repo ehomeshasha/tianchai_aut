@@ -5,19 +5,30 @@
 			<table class="table table-bordered table-hover table-condensed sort_table" id="table">
 				<thead>
 				<tr>
+					<td width="5%"></td>
 					<td width="10%">ID</td>
 					<td width="">Title</td>
 					<td width="8%">AC</td>
 					<td width="8%">Submit</td>
+					<td width="10%">Operate</td>
 				</tr>
 				</thead>
 				<tbody>
 				<!--{loop $problemlist $problem}-->
 				<tr>
+					<td>
+						<!--{if $problem['solved'] == 1}-->
+						<i class="icon-ok" title="I'v solved this problem"></i>
+						<!--{/if}-->
+						<!--{if $problem['did'] == 1}-->
+						<i class="icon-remove" title="I tried to solve this problem but failed"></i>
+						<!--{/if}-->
+					</td>
 					<td>$problem['problem_id']</td>
 					<td><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$problem[problem_id]);}">$problem['title']</a></td>
 					<td>$problem['accepted']</td>
 					<td>$problem['submit']</td>
+					<td><a href="{AUT_INDEX_PATH}&home=tiku&act=downloadtest&pid={$problem[problem_id]}">Download test point</a></td>
 				</tr>
 				<!--{/loop}-->
 				</tbody>

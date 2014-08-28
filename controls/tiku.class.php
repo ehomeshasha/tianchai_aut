@@ -37,9 +37,22 @@ class tiku_controller {
 		$multi = $paginator->get_multi();
 		
 		
-		$query = DB::query("SELECT id,problem_id,title,accepted,submit,category,ptype FROM `problem` WHERE {$where} ORDER BY problem_id ASC $limit");
+		$query = DB::query("SELECT id,problem_id,title,accepted,submit,category,ptype,solved_userlist,did_userlist FROM `problem` WHERE {$where} ORDER BY problem_id ASC $limit");
 		$problemlist = array();
 		while($value = DB::fetch($query)) {
+			if(!empty($value['solved_userlist'])) {
+				$solved_userlist = json_decode($value['solved_userlist'], true);
+				if(in_array($_G['uid'], $solved_userlist)) {
+					$value['solved'] = 1;
+				}
+			}
+			if(!empty($value['did_userlist'])) {
+				$did_userlist = json_decode($value['did_userlist'], true);
+				if(in_array($_G['uid'], $did_userlist)) {
+					$value['did'] = 1;
+				}
+			}
+			
 			$problemlist[] = $value;
 		}
 		
@@ -118,6 +131,50 @@ EOF;
 	
 		include template('aut:common/confirmbox');
 	}
+	
+	public function downloadtest_action() {
+		global $_G;
+		//display_errors();
+		
+		
+		
+		
+		
+		include_once AUT_PATH."/class/traverse.class.php";
+		
+		//if($_G['groupid'] != 23) {
+		//	showresult(-1, "Permission denied");
+		//}
+		$problem_id = getgpc('pid');
+		
+		$basedir = $_G['OJ_DATA']."/".$problem_id;
+		
+		//echo $basedir;
+		$traverseDir = new traverseDir($basedir);
+		//$basedir = "/home/judge";
+		
+		echo $basedir;
+		print_r( scandir($basedir));
+		
+		//$traverseDir->scandir($traverseDir->currentdir);
+		//$files = $traverseDir->fileinfo;
+		
+		//print_r($traverseDir);
+		
+		//$traverseDir->currentdir;
+    
+    //if (isset($_POST['down_load'])){ 
+    //    $items=$_POST['items'];
+    //    $traverseDir->tozip($items);//将文件压缩成zip格式
+    //}
+		
+		$problem = DB::fetch_first("SELECT title FROM `problem` WHERE problem_id='$problem_id'");
+		
+		include template("aut:common/header");
+		include template("aut:download_zip");
+		include template("aut:common/footer");
+	}
+	
 	
 }
 ?>

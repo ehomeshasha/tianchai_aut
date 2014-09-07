@@ -205,6 +205,7 @@ function jumpto(url) {
 		form.attr("action", url);
 		form.submit();
 	} else {
+		alert(url);
 		location.href = url;
 	}
 }

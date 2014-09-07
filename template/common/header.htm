@@ -134,6 +134,9 @@ setTimeout(function() {
 				<li {if $_G['aut_controller'] == 'solution'}class="active"{/if}>
 					<a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=solution');}">{lang aut:solutionlist}</a>
 				</li>
+				<li {if $_G['aut_controller'] == 'rank'}class="active"{/if}>
+					<a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=rank');}">{lang aut:pinyin_paihangbang}</a>
+				</li>
 				<li><a href="{eval echo getStaticUrl('/forum.php');}">{lang aut:aut_forum}</a></li>
 				<!-- <li><a href="{eval echo getStaticUrl('/home.php?mod=spacecp&ac=invite');}" target="_blank">Invite</a></li> -->
 			</ul>

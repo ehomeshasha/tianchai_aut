@@ -1,27 +1,36 @@
+<script type="text/javascript">
+jQuery(function(){
+	jQuery("#selall").click(function(){
+		
+		jQuery(".filename").attr("checked", jQuery("#selall").attr("checked"));
+	});
+});
+</script>
+
 <h3>{$problem['title']}</h3>
 <p>
-	"当前的工作目录:".$scandir->currentdir;
+	"当前的工作目录:".{$traverseDir->currentdir};
 	<br>当前目录下的所有文件
 </p>
-<form action="list.php" method="POST">
-<table>
+<form action="" method="POST">
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+<input type="hidden" name="submit" value="true" />
+<table width="100%">
     <tr>
-        <td></td>
-        <td>名称</td>
-        <td>大小(KB)</td>
+        <td width="5%"></td>
+        <td width="95%">名称</td>
     </tr>
     <!--{loop $files $k $v}-->
     <!--{if $k != '.' && $k != '..'}-->
     <tr>
         <td><input type="checkbox" name="items[]" class="filename" value="{$k}"></td>
         <td>{$k}</td>
-        <td>{eval echo number_format($v[0],0);}</td>
     </tr>
     <!--{/if}-->
     <!--{/loop}-->
     <tr>
-        <td><input type="checkbox" id="selall"><label for="selall">全选</label></td>
-        <td><input type="submit" name="down_load" value="打包并下载" id="tozip_tetttt"></td>
+        <td><input type="checkbox" id="selall" class="pull-left"><label for="selall" class="pull-left">全选</label></td>
+        <td><input type="submit" name="down_load" value="打包并下载" id="downloadBtn"></td>
     </tr>
 </table>
 </form>

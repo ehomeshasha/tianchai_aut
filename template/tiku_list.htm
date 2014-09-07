@@ -10,7 +10,9 @@
 					<td width="">Title</td>
 					<td width="8%">AC</td>
 					<td width="8%">Submit</td>
+					<!--{if $_G['groupid'] == 23 || in_array($_G['groupid'], $_G['aut_settings']['admingroup'])}-->
 					<td width="10%">Operate</td>
+					<!--{/if}-->
 				</tr>
 				</thead>
 				<tbody>
@@ -28,7 +30,9 @@
 					<td><a href="{eval echo getStaticUrl(AUT_INDEX_PATH.'&home=problem&act=view&pid='.$problem[problem_id]);}">$problem['title']</a></td>
 					<td>$problem['accepted']</td>
 					<td>$problem['submit']</td>
+					<!--{if $_G['groupid'] == 23 || in_array($_G['groupid'], $_G['aut_settings']['admingroup'])}-->
 					<td><a href="{AUT_INDEX_PATH}&home=tiku&act=downloadtest&pid={$problem[problem_id]}">Download test point</a></td>
+					<!--{/if}-->
 				</tr>
 				<!--{/loop}-->
 				</tbody>

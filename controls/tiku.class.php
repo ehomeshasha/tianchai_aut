@@ -135,44 +135,32 @@ EOF;
 	public function downloadtest_action() {
 		global $_G;
 		//display_errors();
-		
-		
-		
-		
-		
 		include_once AUT_PATH."/class/traverse.class.php";
-		
-		//if($_G['groupid'] != 23) {
-		//	showresult(-1, "Permission denied");
-		//}
 		$problem_id = getgpc('pid');
-		
 		$basedir = $_G['OJ_DATA']."/".$problem_id;
-		
-		//echo $basedir;
 		$traverseDir = new traverseDir($basedir);
-		//$basedir = "/home/judge";
 		
-		echo $basedir;
-		print_r( scandir($basedir));
-		
-		//$traverseDir->scandir($traverseDir->currentdir);
-		//$files = $traverseDir->fileinfo;
-		
-		//print_r($traverseDir);
-		
-		//$traverseDir->currentdir;
-    
-    //if (isset($_POST['down_load'])){ 
-    //    $items=$_POST['items'];
-    //    $traverseDir->tozip($items);//将文件压缩成zip格式
-    //}
-		
-		$problem = DB::fetch_first("SELECT title FROM `problem` WHERE problem_id='$problem_id'");
-		
-		include template("aut:common/header");
-		include template("aut:download_zip");
-		include template("aut:common/footer");
+		if(!submitcheck('submit')) {
+			if($_G['groupid'] != 23 && !in_array($_G['groupid'], $_G['aut_settings']['admingroup'])) {
+				showresult(-1, "Permission denied");
+			}
+			
+			
+			$traverseDir->scandir($traverseDir->currentdir);
+			$files = $traverseDir->fileinfo;
+
+			$problem = DB::fetch_first("SELECT title FROM `problem` WHERE problem_id='$problem_id'");
+			
+			include template("aut:common/header");
+			include template("aut:download_zip");
+			include template("aut:common/footer");
+		} else {
+			$items = $_POST['items'];
+			echo '<pre>';
+			print_r($items);
+			$traverseDir->tozip($items);//将文件压缩成zip格式
+			
+		}
 	}
 	
 	

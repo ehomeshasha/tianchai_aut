@@ -13,8 +13,9 @@ if(!defined('IN_DISCUZ')) {
         protected $_filepath;
         protected $_filesize;//文件大小
         public function __construct($filename){
+        	//echo $filename;
             $this->_filename=$filename;
-            $this->_filepath=dirname(__FILE__).'/'.$filename;
+            $this->_filepath=$filename;
         }
         //获取文件名
         public function getfilename(){
@@ -30,9 +31,14 @@ if(!defined('IN_DISCUZ')) {
         public function getfilesize(){
             return $this->_filesize=number_format(filesize($this->_filepath)/(1024*1024),2);//去小数点后两位
         }
+        
+        
+        
+        
         //下载文件的功能
         public function getfiles(){
             //检查文件是否存在
+            //echo $this->_filepath;
             if (file_exists($this->_filepath)){
                 //打开文件
                 $file = fopen($this->_filepath,"r");

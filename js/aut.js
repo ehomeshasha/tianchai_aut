@@ -206,7 +206,7 @@ function jumpto(url) {
 		form.submit();
 	} else {
 		//alert(siteurl+url);
-		location.href = siteurl+url;
+		window.location.href = siteurl+url;
 		return false;
 	}
 }

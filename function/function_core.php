@@ -394,14 +394,14 @@ function aut_multi($num, $perpage, $curpage, $mpurl, $maxpages = 0, $page = 10, 
 				$to = $pages;
 			}
 		}
-		$multipage = ($curpage - $offset > 1 && $pages > $page ? '<li><a onclick=\'jumpto("'.$mpurl.'page=1");\' href="javascript:;">1 '.$dot.'</a></li>' : '').
-		($curpage > 1 && !$simple ? '<li><a onclick=\'jumpto("'.$mpurl.'page='.($curpage - 1).'");\' href="javascript:;">'.$lang['prev'].'</a></li>' : '<li class="disabled"><a href="javascript:;">'.$lang['prev'].'</a></li>');
+		$multipage = ($curpage - $offset > 1 && $pages > $page ? '<li><a onclick=\'jumpto("'.$mpurl.'page=1");return false;\' href="javascript:;">1 '.$dot.'</a></li>' : '').
+		($curpage > 1 && !$simple ? '<li><a onclick=\'jumpto("'.$mpurl.'page='.($curpage - 1).'");return false;\' href="javascript:;">'.$lang['prev'].'</a></li>' : '<li class="disabled"><a href="javascript:;">'.$lang['prev'].'</a></li>');
 		for($i = $from; $i <= $to; $i++) {
 			$multipage .= $i == $curpage ? '<li class="active"><a href="javascript:;">'.$i.'</a></li>' :
-			'<li><a onclick=\'jumpto("'.$mpurl.'page='.$i.'");\' href="javascript:;">'.$i.'</a></li>';
+			'<li><a onclick=\'jumpto("'.$mpurl.'page='.$i.'");return false;\' href="javascript:;">'.$i.'</a></li>';
 		}
-		$multipage .= ($to < $pages ? '<li><a onclick=\'jumpto("'.$mpurl.'page='.$pages.'");\' href="javascript:;">'.$dot.' '.$realpages.'</a></li>' : '').
-		($curpage < $pages && !$simple ? '<li><a onclick=\'jumpto("'.$mpurl.'page='.($curpage + 1).'");\' href="javascript:;">'.$lang['next'].'</a></li>' : '<li class="disabled"><a href="javascript:;">'.$lang['next'].'</a></li>');
+		$multipage .= ($to < $pages ? '<li><a onclick=\'jumpto("'.$mpurl.'page='.$pages.'");return false;\' href="javascript:;">'.$dot.' '.$realpages.'</a></li>' : '').
+		($curpage < $pages && !$simple ? '<li><a onclick=\'jumpto("'.$mpurl.'page='.($curpage + 1).'");return false;\' href="javascript:;">'.$lang['next'].'</a></li>' : '<li class="disabled"><a href="javascript:;">'.$lang['next'].'</a></li>');
 
 		$multipage = $multipage ? '<ul>'.($shownum && !$simple ? '<em>&nbsp;'.$num.'&nbsp;</em>' : '').$multipage.'</ul>' : '';
 	}

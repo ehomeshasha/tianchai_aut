@@ -20,7 +20,6 @@ require_once AUT_PATH."/class/mysql.class.php";
 
 include AUT_PATH."/inc/common.inc.php";
 
-
 $_G['aut_message'] = initmessage();
 $_G['ArrayData'] = $ArrayData;
 

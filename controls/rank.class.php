@@ -56,7 +56,6 @@ class rank_controller {
 		$perpage = $paginator->get_perpage();
 		$multi = $paginator->get_multi();
 		$start = $paginator->get_start();
-		echo $start;
 		
 		$user_list = array();
 		$i = 0;

@@ -205,7 +205,8 @@ function jumpto(url) {
 		form.attr("action", url);
 		form.submit();
 	} else {
-		alert(siteurl+url);
+		//alert(siteurl+url);
 		location.href = siteurl+url;
+		return false;
 	}
 }

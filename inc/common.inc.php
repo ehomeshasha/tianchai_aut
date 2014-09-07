@@ -35,7 +35,7 @@ foreach($_G['aut_cache']['categorytree'] as $v) {
 	$_G['aut_cache']['categorytree_merge'] = array_merge($_G['aut_cache']['categorytree_merge'], $v);
 }
 
-//每隔一段时间判断Problem的solve情况
+/*//每隔一段时间判断Problem的solve情况
 //if($_G['timestamp'] % 3600 == 0) {
 if(!empty($_G['uid']) && true) {
 	
@@ -96,7 +96,7 @@ function problem_status_userlist_filter($v) {
 		return true;
 	}
 	return false;
-}
+}*/
 
 
 

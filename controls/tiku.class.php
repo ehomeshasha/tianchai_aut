@@ -39,21 +39,37 @@ class tiku_controller {
 		
 		$query = DB::query("SELECT id,problem_id,title,accepted,submit,category,ptype,solved_userlist,did_userlist FROM `problem` WHERE {$where} ORDER BY problem_id ASC $limit");
 		$problemlist = array();
-		while($value = DB::fetch($query)) {
-			if(!empty($value['solved_userlist'])) {
-				$solved_userlist = json_decode($value['solved_userlist'], true);
-				if(in_array($_G['uid'], $solved_userlist)) {
-					$value['solved'] = 1;
+		if(empty($_G['uid'])) {
+			while($value = DB::fetch($query)) {
+				/*if(!empty($value['solved_userlist'])) {
+					$solved_userlist = json_decode($value['solved_userlist'], true);
+					if(in_array($_G['uid'], $solved_userlist)) {
+						$value['solved'] = 1;
+					}
 				}
+				if(!empty($value['did_userlist'])) {
+					$did_userlist = json_decode($value['did_userlist'], true);
+					if(in_array($_G['uid'], $did_userlist)) {
+						$value['did'] = 1;
+					}
+				}*/
+				$problemlist[] = $value;
 			}
-			if(!empty($value['did_userlist'])) {
-				$did_userlist = json_decode($value['did_userlist'], true);
-				if(in_array($_G['uid'], $did_userlist)) {
-					$value['did'] = 1;
+		} else {
+			while($value = DB::fetch($query)) {
+				$query2 = DB::query("SELECT result FROM `solution` WHERE problem_id='$value[problem_id]' AND user_id='$_G[uid]'");
+				while($value2 = DB::fetch($query2)) {
+					if($value2['result'] == "4") {
+						unset($value['did']);
+						$value['solved'] = 1;
+						break;
+					} elseif($value2['result'] != "0") {
+						$value['did'] = 1;
+					}
 				}
+				$problemlist[] = $value;
 			}
 			
-			$problemlist[] = $value;
 		}
 		
 		
@@ -156,8 +172,8 @@ EOF;
 			include template("aut:common/footer");
 		} else {
 			$items = $_POST['items'];
-			echo '<pre>';
-			print_r($items);
+			//echo '<pre>';
+			//print_r($items);
 			$traverseDir->tozip($items);//将文件压缩成zip格式
 			
 		}
